@@ -22,8 +22,8 @@ public class Company {
     @ElementCollection(targetClass = Tag.class)
     private List<Tag> tags;
 
-    private String location;
-    private int stock;
+    private String location; // api 써서 location 찾기
+    private int stock; // api 써서 주식 데이터 불러오기 ?? 아마 조금더 복잡해질지도 ??
     private int total_donation;
 
     @OneToMany(mappedBy = "company")
