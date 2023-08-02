@@ -18,12 +18,14 @@ public class Company {
     @Column(name = "company_id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = Tag.class)
-    private List<Tag> tags;
+    private String name;
 
-    private String location;
-    private int stock;
+    @ElementCollection
+    @CollectionTable(name = "company_tags", joinColumns = @JoinColumn(name = "company_id"))
+    private List<String> tags = new ArrayList<>();
+
+    private String location; // api 써서 location 찾기
+    private int stock; // api 써서 주식 데이터 불러오기 ?? 아마 조금더 복잡해질지도 ??
     private int total_donation;
 
     @OneToMany(mappedBy = "company")
@@ -31,4 +33,27 @@ public class Company {
 
     @OneToMany(mappedBy = "company")
     private List<News> newsList = new ArrayList<>();
+
+    //==생성 메서드==//
+    public static Company createCompany(String name, String location, int stock ,String ...tags){
+        Company company = new Company();
+        company.setName(name);
+        company.setLocation(location);
+        company.setStock(stock);
+        for (String tag : tags) {
+            company.getTags().add(tag);
+        }
+
+        return company;
+    }
+
+    //==조회 로직==//
+    public void getTotalDonate(){
+        int totalDonate = 0;
+        for (Donate donate : donateList) {
+            totalDonate += donate.getAmount();
+        }
+
+        this.total_donation = totalDonate;
+    }
 }
