@@ -18,6 +18,7 @@ public class UserRepository {
     }
 
     public User findOne(Long id){ // id로 하나 조회
+
         return em.find(User.class,id);
     }
     public List<User> findAll(){ // 전부 조회
@@ -30,6 +31,10 @@ public class UserRepository {
                 setParameter("name",name)
                 .getResultList();
     }
-
+    public List<User> findById(Long id){ // 아이디로 찾기
+        return em.createQuery("select u from User u where  u.id = :id",User.class).
+                setParameter("id",id)
+                .getResultList();
+    }
 
 }

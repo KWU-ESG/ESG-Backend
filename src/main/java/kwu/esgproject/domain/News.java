@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,9 +20,11 @@ public class News {
     @Column(name = "news_id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = Category.class)
-    private List<Category> category;
+    private String name;
+
+    @ElementCollection
+    @CollectionTable(name = "news_category", joinColumns = @JoinColumn(name = "news_id"))
+    private List<String> category = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
@@ -32,4 +35,33 @@ public class News {
     private int unlikes;
 
     private LocalDateTime news_time;
+
+    //==비지니스 로직==//
+    public void addLike(){
+        this.likes++;
+    }
+    public void addUnlike(){
+        this.unlikes++;
+    }
+
+    //==연관관계 메서드==//
+    public void setCompany(Company company){
+        this.company = company;
+        company.getNewsList().add(this);
+    }
+
+    //==생성 메서드==//
+    public static News createNews(String name, Company company, String detail, String ...category){
+        News news = new News();
+        news.setName(name);
+        news.setCompany(company);
+        news.setDetail(detail);
+        news.setLikes(0);
+        news.setUnlikes(0);
+        for (String c : category) {
+            news.getCategory().add(c);
+        }
+
+        return news;
+    }
 }

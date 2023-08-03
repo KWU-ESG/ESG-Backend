@@ -16,6 +16,7 @@ public class CompanyRepository {
         em.persist(company);
     }
 
+
     public Company findOne(Long id){
         return em.find(Company.class,id);
     }
@@ -23,6 +24,11 @@ public class CompanyRepository {
         return em.createQuery("select c from Company c ",Company.class)
                 .getResultList();
     }
+
+    // 쿼리 추가할 것?
+
+
+
 
 
 }

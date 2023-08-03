@@ -39,8 +39,45 @@ public class User {
 
     private int total_donation;
 
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = Tag.class)
-    private List<Tag> prefer_tag = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "user_tags", joinColumns = @JoinColumn(name = "user_id"))
+    private List<String> prefer_tag;
 
+    //==생성 메서드==//
+    public static User createUser(String name, String email, String password) {
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setGrade(Grade.USER);
+
+        return user;
+    }
+
+    public static User createAdmin(String name, String email, String password, String ...tags){
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setGrade(Grade.ADMIN);
+        for (String tag : tags) {
+            user.getPrefer_tag().add(tag);
+        }
+
+        return user;
+    }
+
+    //==조회 로직==//
+    public void getTotalDonate(){
+        int totalDonate = 0;
+        for (Donate donate : donateList) {
+            totalDonate += donate.getAmount();
+        }
+
+        this.total_donation = totalDonate;
+    }
+
+    public void withdrawal() {
+
+    }
 }

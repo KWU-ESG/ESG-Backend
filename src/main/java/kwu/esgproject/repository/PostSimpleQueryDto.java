@@ -2,7 +2,6 @@ package kwu.esgproject.repository;
 
 import kwu.esgproject.domain.Comment;
 import kwu.esgproject.domain.Open;
-import kwu.esgproject.domain.Tag;
 import kwu.esgproject.domain.User;
 import lombok.Data;
 
