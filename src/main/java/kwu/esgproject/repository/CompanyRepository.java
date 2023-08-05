@@ -16,19 +16,27 @@ public class CompanyRepository {
         em.persist(company);
     }
 
-
     public Company findOne(Long id){
         return em.find(Company.class,id);
     }
+
     public List<Company> findAll(){
         return em.createQuery("select c from Company c ",Company.class)
                 .getResultList();
     }
 
-    // 쿼리 추가할 것?
+    public Company findByName(String name){
+        return em.createQuery("select c from Company c where c.name =:name ", Company.class)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
 
-
-
-
+    //원하는 태그 하나로 회사 추천
+    public List<Company> recommendByOneTag(String tag){
+        return em.createQuery("select c from Company c " +
+                "where :tag MEMBER OF c.tags", Company.class)
+                .setParameter("tag", tag)
+                .getResultList();
+    }
 
 }

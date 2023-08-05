@@ -1,5 +1,6 @@
 package kwu.esgproject.repository;
 
+import kwu.esgproject.domain.Company;
 import kwu.esgproject.domain.News;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -24,9 +25,20 @@ public class NewsRepository {
         return em.createQuery("select n from News n ",News.class)
                 .getResultList();
     }
+
     // news와 태그에 따른 검색?
+    public List<News> findByTitle(String title){
+        return em.createQuery("select n from News n " +
+                "where n.title LIKE :title")
+                .setParameter("title", title)
+                .getResultList();
+    }
 
-
-
+    public List<News> findByOneCategory(String category){
+        return em.createQuery("select n from News n " +
+                        "where :category MEMBER OF n.category", News.class)
+                .setParameter("category", category)
+                .getResultList();
+    }
 
 }

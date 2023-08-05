@@ -80,7 +80,7 @@ public class User {
         this.total_donation = totalDonate;
     }
 
-    public void withdrawal() {
-        this.total_donation = totalDonate;
+    public int withdrawal() {
+        return this.total_donation;
     }
 }

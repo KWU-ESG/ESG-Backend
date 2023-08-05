@@ -20,7 +20,7 @@ public class News {
     @Column(name = "news_id")
     private Long id;
 
-    private String name;
+    private String title;
 
     @ElementCollection
     @CollectionTable(name = "news_category", joinColumns = @JoinColumn(name = "news_id"))
@@ -30,7 +30,7 @@ public class News {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    private String detail;
+    private String content;
     private int likes;
     private int unlikes;
 
@@ -51,11 +51,11 @@ public class News {
     }
 
     //==생성 메서드==//
-    public static News createNews(String name, Company company, String detail, String ...category){
+    public static News createNews(String title, Company company, String content, String ...category){
         News news = new News();
-        news.setName(name);
+        news.setTitle(title);
         news.setCompany(company);
-        news.setDetail(detail);
+        news.setContent(content);
         news.setLikes(0);
         news.setUnlikes(0);
         for (String c : category) {

@@ -3,8 +3,6 @@ package kwu.esgproject.repository;
 import kwu.esgproject.domain.Donate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.util.List;
 
@@ -21,17 +19,36 @@ public class DonateRepository {
     {
         return em.find(Donate.class,id);
     }
-    // Donate 총량 세는 것?
 
-    // 전체 기부 조회
+    public List<Donate> findAll(){
+        return em.createQuery("select d from Donate d", Donate.class)
+                .getResultList();
+    }
 
+    // 회사 기부금 조회
+    public List<Donate> findByCompany(String companyName){
+        return em.createQuery("select d from Donate d " +
+                "where d.company.name =: companyName")
+                .setParameter("companyName", companyName)
+                .getResultList();
+    }
 
-    // 회사에 대한 총 기부금 조회 -> 필요 없을 듯?
-//    public List<Donate> findWithCompany
+    // 유저 기부금 조회
+    public List<Donate> findByUser(String userName){
+        return em.createQuery("select d from Donate d " +
+                "where d.user.name =: userName")
+                .setParameter("userName", userName)
+                .getResultList();
+    }
 
-
-    // 회사에 대한 기부금과 기부한 사람 1대 1 조회
-
-
+    //회사, 유저 1대1 기부 리스트
+    public List<Donate> findByCompanyWithUser(String companyName, String userName){
+        return em.createQuery("select d from Donate d " +
+                "where d.company.name = :companyName " +
+                "and d.user.name = :userName")
+                .setParameter("companyName", companyName)
+                .setParameter("userName", userName)
+                .getResultList();
+    }
 
 }
