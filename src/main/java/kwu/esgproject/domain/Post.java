@@ -36,7 +36,6 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
 
-
     private LocalDateTime post_time;
 
     @Enumerated(EnumType.STRING)
@@ -53,9 +52,8 @@ public class Post {
     public void addShare(){
         this.share++;
     }
-
+  
     // 좋아요 취소, 공유 취소?
-
     public void cancelLike(){
         this.likes--;
     }
@@ -65,7 +63,6 @@ public class Post {
     // tag 추가
 
     // tag 취소
-
 
     //==연관관계 메서드==//
     public void setUser(User user){
@@ -89,8 +86,4 @@ public class Post {
 
         return post;
     }
-
-
-
-
 }

@@ -38,7 +38,7 @@ public class Comment {
     public void addLike(){
         this.likes++;
     }
-
+  
     // 좋아요 --
     public void minusLike(){this.likes--;}
 
@@ -46,8 +46,6 @@ public class Comment {
     public void delete(){
 
     }
-
-
     //==연관관계 메서드==//
     public void setUser(User user){
         this.user = user;

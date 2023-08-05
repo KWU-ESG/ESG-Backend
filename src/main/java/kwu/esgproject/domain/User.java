@@ -73,11 +73,10 @@ public class User {
         for (Donate donate : donateList) {
             totalDonate += donate.getAmount();
         }
-
         this.total_donation = totalDonate;
     }
 
     public void withdrawal() {
-
+        this.total_donation = totalDonate;
     }
 }

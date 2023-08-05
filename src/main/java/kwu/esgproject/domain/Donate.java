@@ -48,9 +48,7 @@ public class Donate {
     public void Cancel(){
 
     }
-
-
-
+  
     //==생성 메서드==//
     public static Donate createDonate(User user, Company company, int amount){
         Donate donate = new Donate();
