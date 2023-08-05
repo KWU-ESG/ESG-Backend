@@ -20,6 +20,8 @@ public class User {
     private Long id;
 
     private String name;
+    private String nickname;
+    private String birth_date;
     private String email;
     private String password;
 
@@ -44,9 +46,11 @@ public class User {
     private List<String> prefer_tag;
 
     //==생성 메서드==//
-    public static User createUser(String name, String email, String password) {
+    public static User createUser(String name, String nickname, String birth, String email, String password) {
         User user = new User();
         user.setName(name);
+        user.setNickname(nickname);
+        user.setBirth_date(birth);
         user.setEmail(email);
         user.setPassword(password);
         user.setGrade(Grade.USER);
