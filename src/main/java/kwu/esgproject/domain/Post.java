@@ -39,6 +39,7 @@ public class Post {
     private LocalDateTime post_time;
 
     @Enumerated(EnumType.STRING)
+    // 공개인지 비공개인지 권환에 따라 ADMIN일 경우 상관없이 조회가능 User일 경우 close이면 조회 불가
     private Open open;
 
     //==비지니스 로직==//
@@ -51,6 +52,17 @@ public class Post {
     public void addShare(){
         this.share++;
     }
+  
+    // 좋아요 취소, 공유 취소?
+    public void cancelLike(){
+        this.likes--;
+    }
+    public void cancelShare(){
+        this.share--;
+    }
+    // tag 추가
+
+    // tag 취소
 
     //==연관관계 메서드==//
     public void setUser(User user){

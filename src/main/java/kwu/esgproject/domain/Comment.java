@@ -34,10 +34,18 @@ public class Comment {
 
 
     //==비지니스 로직==//
+    // 좋아요 ++
     public void addLike(){
         this.likes++;
     }
+  
+    // 좋아요 --
+    public void minusLike(){this.likes--;}
 
+    // 댓글 삭제
+    public void delete(){
+
+    }
     //==연관관계 메서드==//
     public void setUser(User user){
         this.user = user;
