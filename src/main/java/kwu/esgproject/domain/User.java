@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "users")//h2 db는 user이 예약어라 table 오류 발생
 public class User {
     @Id @GeneratedValue
     @Column(name = "user_id")
