@@ -53,6 +53,11 @@ public class UserService {
 
     // 회원 탈퇴
     @Transactional
+    public void deleteUser(Long id){
+        User user = userRepository.findOne(id);
+        userRepository.delete(user);
+    }
+    @Transactional
     public void withdrawal(Long id){
         User user = userRepository.findOne(id);
 

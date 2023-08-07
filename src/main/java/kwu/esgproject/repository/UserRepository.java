@@ -17,6 +17,7 @@ public class UserRepository {
         em.persist(user);
     }
 
+    public void delete(User user) { em.persist(user);}
     public User findOne(Long id){ // id로 하나 조회
 
         return em.find(User.class,id);
