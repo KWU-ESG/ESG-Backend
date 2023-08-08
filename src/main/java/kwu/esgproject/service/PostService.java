@@ -21,15 +21,20 @@ public class PostService {
     private final UserRepository userRepository;
     // 게시글 작성
     @Transactional
-    public Long savePost(Long userID,String detail,String ...Tags){
+    public Long savePost(Post post){
         // 중복 방지 함수
         //validateDuplicatePost(post);
-        User user = userRepository.findOne(userID);
-        Post post = Post.createPost(user,detail,Tags);
-
         postRepository.save(post);
         //
         return post.getId();
+    }
+
+    public List<Post> findAllPost(){
+        return postRepository.findAll();
+    }
+
+    public Post findPost(Long postId){
+        return postRepository.findOne(postId);
     }
 
     public void validateDuplicatePost(Post post){

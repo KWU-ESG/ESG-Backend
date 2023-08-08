@@ -23,6 +23,8 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String title;
+
     private String detail;
 
     @ElementCollection
@@ -72,18 +74,20 @@ public class Post {
 
     //==생성 메서드==//
 
-    public static Post createPost(User user, String detail, String ...tags) {
+    public static Post createPost(User user, String title,String detail) {
         Post post = new Post();
         post.setUser(user);
+        post.setTitle(title);
         post.setDetail(detail);
-        for (String tag : tags) {
-            post.getTags().add(tag);
-        }
         post.setViews(0);
         post.setLikes(0);
         post.setShare(0);
         post.setOpen(Open.OPEN);
 
         return post;
+    }
+
+    public void addTag(String tag){
+        this.getTags().add(tag);
     }
 }
