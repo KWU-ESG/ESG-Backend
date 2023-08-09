@@ -36,24 +36,45 @@ public class CommentService {
 
     // 댓글 삭제 댓글이랑 회원 아이디가 일치??
     @Transactional
-    public void deleteComment(Long id)
+    public void deleteComment(Long postId, Long commentId)
     {
-        Comment comment = commentRepository.findOne(id);
-
-        // 게시판에서 댓글 지우기
-
-        // 회원이 쓴 댓글 지우기
-
+        validateUpdateComment(postId);
+        Comment comment = commentRepository.findOne(commentId);
         commentRepository.delete(comment);
 
     }
+    public void validateDeleteComment(Long postId ,Long commentId){
+        Post findpost= postRepository.findOne(postId);
+        if(findpost == null){
+            throw new IllegalStateException("이미 삭제된 게시글입니다");
+        }
+        Comment comment = commentRepository.findOne(commentId);
+        if(comment == null){
+            throw new IllegalStateException("이미 삭제된 댓글입니다");
+        }
 
+    }
 
     // 댓글 수정
-    public void updateComment(Long id,String detail){
-        Comment comment = commentRepository.findOne(id);
+
+    @Transactional
+    public void updateComment(Long postId, Long commentId, String detail){
+
+        validateUpdateComment(postId);
+        Comment comment = commentRepository.findOne(commentId);
         comment.setDetail(detail);
         comment.setComment_time(LocalDateTime.now()); // comment Time을 다시 수정할 것인가?
+
+
+    }
+
+    // 게시글이 먼저 삭제 되었을 때
+    public void validateUpdateComment(Long postId)
+    {
+        Post findpost= postRepository.findOne(postId);
+        if(findpost == null){
+            throw new IllegalStateException("이미 삭제된 게시글입니다");
+        }
 
     }
 

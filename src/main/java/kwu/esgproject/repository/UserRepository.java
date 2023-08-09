@@ -38,4 +38,16 @@ public class UserRepository {
                 .getResultList();
     }
 
+    public User findByEmail(String email) {
+        return  em.createQuery("select u from User u where  u.email =: email",User.class)
+                .setParameter("email",email)
+                .getSingleResult();
+
+    }
+
+    public User findByNameWithBirthDate(String name, String birthDate,String nickname) {
+        return em.createQuery("select u from User u where u.name =: name " +
+                        "and u.birth_date =:birthDate and u.nickname=:nickname", User.class)
+                .getSingleResult();
+    }
 }
