@@ -35,16 +35,17 @@ public class Company {
     private List<News> newsList = new ArrayList<>();
 
     //==생성 메서드==//
-    public static Company createCompany(String name, String location, int stock ,String ...tags){
+    public static Company createCompany(String name, String location, int stock){
         Company company = new Company();
         company.setName(name);
         company.setLocation(location);
         company.setStock(stock);
-        for (String tag : tags) {
-            company.getTags().add(tag);
-        }
 
         return company;
+    }
+
+    public void addTag(String tag){
+        this.getTags().add(tag);
     }
 
     //==조회 로직==//

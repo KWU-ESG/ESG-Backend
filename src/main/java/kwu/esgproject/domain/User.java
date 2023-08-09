@@ -59,17 +59,20 @@ public class User {
         return user;
     }
 
-    public static User createAdmin(String name, String email, String password, String ...tags){
+    public static User createAdmin(String name, String nickname, String birth, String email, String password){
         User user = new User();
         user.setName(name);
+        user.setNickname(nickname);
+        user.setBirth_date(birth);
         user.setEmail(email);
         user.setPassword(password);
         user.setGrade(Grade.ADMIN);
-        for (String tag : tags) {
-            user.getPrefer_tag().add(tag);
-        }
 
         return user;
+    }
+
+    public void addTag(String tag){
+        this.getPrefer_tag().add(tag);
     }
 
     //==조회 로직==//
