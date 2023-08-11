@@ -2,15 +2,12 @@ package kwu.esgproject.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class CreateCompanyRequest {
+public class EditCompanyRequest {
     private String name;
-
-    @Size(min = 1,message = "List size must be more than 1" )
     private List<String> tags = new ArrayList<>();
 
     private String description;

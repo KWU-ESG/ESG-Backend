@@ -35,4 +35,19 @@ public class CompanyService {
         return companyRepository.recommendByOneTag(tag);
     }
 
+    @Transactional
+    public void editCompanyDetail(Long companyId, String name, List<String> tags, String description, String location, int stock){
+        Company company = companyRepository.findOne(companyId);
+        company.setName(name);
+        company.setTags(tags);
+        company.setDescription(description);
+        company.setLocation(location);
+        company.setStock(stock);
+    }
+
+    public void deleteCompany(Long companyId){
+        Company company = companyRepository.findOne(companyId);
+        companyRepository.delete(company);
+    }
+
 }

@@ -10,8 +10,6 @@ import java.util.List;
 
 @Data
 public class CreatePostRequest {
-    private Long userId;
-
     @Size(min = 1,message = "List size must be more than 1" )
     private List<String> tags = new ArrayList<>();
 
