@@ -39,9 +39,9 @@ public class PostController{
         return new PostDto(findPost.getUser().getNickname(), findPost.getTitle(), findPost.getDetail(), findPost.getTags(), findPost.getViews(), findPost.getLikes(), findPost.getShare(), findPost.getCommentList().size(), findPost.getCommentList(), findPost.getPost_time());
     }
 
-    @PostMapping("/post/publish")
-    public CreateCompanyResponse registrationCompany(@RequestBody @Valid CreatePostRequest request){
-        User user = userService.findOne(request.getUserId());
+    @PostMapping("/forum/publish/{id}")
+    public CreateCompanyResponse registrationCompany(@PathVariable("id") Long userId, @RequestBody @Valid CreatePostRequest request){
+        User user = userService.findOne(userId);
         Post post = Post.createPost(user, request.getTitle(), request.getDetail());
         for (String tag : request.getTags()) {
             post.addTag(tag);
@@ -50,6 +50,18 @@ public class PostController{
 
         return new CreateCompanyResponse(postId);
     }
+
+    @PutMapping("/forum/edit/{id}")
+    public EditPostResponse editCompany(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid EditPostRequest request
+    ){
+        postService.editPost(id, request.getTitle(), request.getDetail(), request.getTags());
+        Post findPost = postService.findPost(id);
+
+        return new EditPostResponse(findPost.getId(), findPost.getTitle(), findPost.getDetail(), findPost.getTags());
+    }
+
     @Data
     @AllArgsConstructor
     static class Result<T> {
@@ -66,4 +78,13 @@ public class PostController{
         }
     }
 
+    @Data
+    @AllArgsConstructor
+    private class EditPostResponse {
+        private Long id;
+        private String title;
+        private String detail;
+
+        private List<String> tags;
+    }
 }

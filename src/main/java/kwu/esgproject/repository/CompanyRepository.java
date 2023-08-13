@@ -39,4 +39,8 @@ public class CompanyRepository {
                 .getResultList();
     }
 
+    public void delete(Company company){
+        em.remove(company);
+    }
+
 }

@@ -56,9 +56,11 @@ public class PostService {
 
     //수정??
     @Transactional
-    public void updatePost(Long id , String detail, String ...Tags){
+    public void editPost(Long id , String title, String detail, List<String> tags){
         Post post = postRepository.findOne(id);
+        post.setTitle(title);
         post.setDetail(detail);
+        post.setTags(tags);
         // 수정한 날짜를 다시 PostTime 으로 할 것인지 아니면 수정한 PostTime의 로그를 저장할 것인지 ?
         post.setPost_time(LocalDateTime.now());
 
@@ -67,15 +69,6 @@ public class PostService {
         // tags 다시 delete하고 set하기 ??
         // 예상되는 문제점 list로 했을 때 중간에 delete 하면
         // null 값으로 들어가고 size만 계속 늘어나는 문제 있는지
-
-
-
-        // 그냥 set 으로 하는게 좋을거 같긴하다
-
-        //List<String> inputTags = Arrays.asList(Tags);
-        post.setTags(Arrays.asList(Tags));
-
-
     }
 
 

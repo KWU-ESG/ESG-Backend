@@ -24,6 +24,8 @@ public class Company {
     @CollectionTable(name = "company_tags", joinColumns = @JoinColumn(name = "company_id"))
     private List<String> tags = new ArrayList<>();
 
+    private String description;
+
     private String location; // api 써서 location 찾기
     private int stock; // api 써서 주식 데이터 불러오기 ?? 아마 조금더 복잡해질지도 ??
     private int total_donation;
@@ -35,9 +37,10 @@ public class Company {
     private List<News> newsList = new ArrayList<>();
 
     //==생성 메서드==//
-    public static Company createCompany(String name, String location, int stock){
+    public static Company createCompany(String name, String description, String location, int stock){
         Company company = new Company();
         company.setName(name);
+        company.setDescription(description);
         company.setLocation(location);
         company.setStock(stock);
 
