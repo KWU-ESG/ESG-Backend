@@ -17,6 +17,7 @@ public class UserRepository {
         em.persist(user);
     }
 
+    public void delete(User user) { em.persist(user);}
     public User findOne(Long id){ // id로 하나 조회
 
         return em.find(User.class,id);
@@ -37,4 +38,16 @@ public class UserRepository {
                 .getResultList();
     }
 
+    public User findByEmail(String email) {
+        return  em.createQuery("select u from User u where  u.email =: email",User.class)
+                .setParameter("email",email)
+                .getSingleResult();
+
+    }
+
+    public User findByNameWithBirthDate(String name, String birthDate,String nickname) {
+        return em.createQuery("select u from User u where u.name =: name " +
+                        "and u.birth_date =:birthDate and u.nickname=:nickname", User.class)
+                .getSingleResult();
+    }
 }
