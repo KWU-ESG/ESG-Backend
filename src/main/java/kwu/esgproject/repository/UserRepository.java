@@ -11,7 +11,7 @@ import java.util.List; // java 18로 들어감
 @RequiredArgsConstructor
 public class UserRepository {
 
-    private EntityManager em;
+    private final EntityManager em;
 
     public void save(User user){ // user 영속성 저장
         em.persist(user);
@@ -39,10 +39,9 @@ public class UserRepository {
     }
 
     public User findByEmail(String email) {
-        return  em.createQuery("select u from User u where  u.email =: email",User.class)
+        return  em.createQuery("select u from User u where u.email =: email",User.class)
                 .setParameter("email",email)
                 .getSingleResult();
-
     }
 
     public User findByNameWithBirthDate(String name, String birthDate,String nickname) {

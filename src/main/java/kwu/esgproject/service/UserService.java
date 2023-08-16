@@ -21,20 +21,20 @@ public class UserService {
     @Transactional
     public Long join(User user){
         // 아이디 중복 체크 validate써서
-        validateDuplicateJoinUser(user);
+//        validateDuplicateJoinUser(user);
         // 저장
         userRepository.save(user);
         return user.getId();
     }
 
     // 이름 닉네임 생일 이메일
-    private void validateDuplicateJoinUser(User user) {
-        // ID로 중복체크
-        User findUser = userRepository.findByEmail(user.getEmail());
-        if(findUser != null){
-            throw new IllegalStateException("존재하는 아이디 입니다. ");
-        }
-    }
+//    private void validateDuplicateJoinUser(User user) {
+//        // ID로 중복체크
+//        User findUser = userRepository.findByEmail(user.getEmail());
+//        if(findUser != null){
+//            throw new IllegalStateException("존재하는 아이디 입니다. ");
+//        }
+//    }
     // 로그인
     @Transactional
     public Long Login(LoginUserRequest loginUserRequest) {

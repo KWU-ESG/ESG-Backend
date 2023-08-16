@@ -44,7 +44,7 @@ public class UserController {
             ,user.getBirth_date(),user.getEmail(),user.getPassword(),user.getPrefer_tag());
     }
 
-    @DeleteMapping("/user/delete/{user_id")
+    @DeleteMapping("/user/delete/{user_id}")
     public DeleteUserResponse DeleteUser(@PathVariable("user_id") Long userId)
     {
             User user = userService.findOne(userId);

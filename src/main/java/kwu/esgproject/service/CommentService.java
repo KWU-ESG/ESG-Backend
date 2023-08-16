@@ -22,6 +22,11 @@ public class CommentService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+    public Long saveComment(Comment comment){
+        commentRepository.save(comment);
+        return comment.getId();
+    }
+
     // 댓글 생성
     public Long saveComment(Long userID, Long postID, String detail){
         User user = userRepository.findOne(userID);
