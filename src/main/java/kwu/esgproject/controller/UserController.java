@@ -29,8 +29,8 @@ public class UserController {
 
     @PostMapping("/user/login")
     public LoginUserResponse LoginUser(@RequestBody @Valid LoginUserRequest request){
-        Long id = userService.Login(request);
-        return new LoginUserResponse(id);
+        String nickname = userService.Login(request);
+        return new LoginUserResponse(nickname);
     }
 
 
@@ -97,10 +97,10 @@ public class UserController {
     }
     @Data
     static class LoginUserResponse{
-        private Long id;
+        private String nickname;
 
-        public LoginUserResponse(Long id) {
-            this.id = id;
+        public LoginUserResponse(String nickname) {
+            this.nickname = nickname;
         }
     }
 

@@ -43,10 +43,24 @@ public class UserRepository {
                 .setParameter("email",email)
                 .getSingleResult();
     }
+    public List<User> findListByEmail(String email){ // Login 에서 검사할 때 single result로 반환 할 경우 심각한 오류가 나옴
+        return  em.createQuery("select u from User u where u.email =: email",User.class)
+                .setParameter("email",email)
+                .getResultList();
+    }
 
     public User findByNameWithBirthDate(String name, String birthDate,String nickname) {
         return em.createQuery("select u from User u where u.name =: name " +
                         "and u.birth_date =:birthDate and u.nickname=:nickname", User.class)
+                .setParameter("name",name)
+                .setParameter("birthDate",birthDate)
+                .setParameter("nickname",nickname)
                 .getSingleResult();
     }
+    public User findByNickname(String nickname){
+        return em.createQuery("select u from User u where u.nickname =: nickname", User.class)
+                .setParameter("nickname", nickname)
+                .getSingleResult();
+    }
+
 }

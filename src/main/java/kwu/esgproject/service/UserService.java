@@ -19,43 +19,76 @@ public class UserService {
 
     // 회원 가입
     @Transactional
-    public Long join(User user){
+    public Long join(User user) {
         // 아이디 중복 체크 validate써서
-//        validateDuplicateJoinUser(user);
+        try {
+            validateDuplicateJoinUserEmail(user);  // singleResult 를 사용해서 data를 가져오게 될때 DB에 값이 없다면
+            // .EmptyResultDataAccessException: No entity found for query; nested exception is javax.persistence.NoResultException: No entity found for query
+            // 이런 오류가 나오고 그렇기 때문에 try catch를 통해서 관리해줘야한다.
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        try {
+            validateDuplicateJoinUserNickname(user);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         // 저장
         userRepository.save(user);
         return user.getId();
     }
 
     // 이름 닉네임 생일 이메일
-//    private void validateDuplicateJoinUser(User user) {
-//        // ID로 중복체크
-//        User findUser = userRepository.findByEmail(user.getEmail());
-//        if(findUser != null){
-//            throw new IllegalStateException("존재하는 아이디 입니다. ");
-//        }
-//    }
+    private void validateDuplicateJoinUserEmail(User user) {
+        // ID로 중복체크
+        User findUserEmail = userRepository.findByEmail(user.getEmail());
+        if (findUserEmail != null) {
+            throw new IllegalStateException("존재하는 이메일 입니다. ");
+        }
+    }
+
+    private void validateDuplicateJoinUserNickname(User user) {
+        //nickname 중복체크
+        User findUserNickname = userRepository.findByNickname(user.getNickname());
+        if (findUserNickname != null) {
+            throw new IllegalStateException("존재하는 닉네임 입니다. ");
+        }
+    }
+
     // 로그인
     @Transactional
-    public Long Login(LoginUserRequest loginUserRequest) {
-        User user = userRepository.findByEmail(loginUserRequest.getEmail());
-        validateLoginUser(user,loginUserRequest);
+    public String Login(LoginUserRequest loginUserRequest) {
+        try{
+            String nickname = validateLoginUser(loginUserRequest);
+            return nickname ; //userRepository.findByEmail(loginUserRequest.getEmail()).getNickname();
+        }catch (Exception e){
+            System.out.println(e);
+            return "";
+        }
+    }
 
-        return user.getId();
-    }
-    private void validateLoginUser(User user,LoginUserRequest loginUserRequest) {
+    private String validateLoginUser(LoginUserRequest loginUserRequest) {
         // email을 통해 1차적으로 있는지 확인
-        if(user ==  null){
-            throw new IllegalStateException("존재하는 아이디 입니다.");
+        List<User> userList = userRepository.findListByEmail(loginUserRequest.getEmail());
+
+        if(userList.isEmpty()){
+            throw new IllegalStateException("존재하지 않는 아이디 입니다.");
         }
-        // 같은지 확인
-        if(!user.getPassword().equals(loginUserRequest.getPassword())){
-            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        else {
+            User user = userRepository.findByEmail(loginUserRequest.getEmail());
+            // 같은지 확인
+            if (!user.getPassword().equals(loginUserRequest.getPassword())) {
+                throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+            } else {
+                return user.getNickname();
+            }
         }
     }
+
+
     // 회원정보 수정
     @Transactional // 어디까지 수정하게 할지?  이메일, 비밀번호 , 태그
-    public void update(Long id, String email, String passward, String ...preferTags){
+    public void update(Long id, String email, String passward, String... preferTags) {
         User user = userRepository.findOne(id);
         user.setEmail(email);
         user.setPassword(passward);
@@ -67,86 +100,88 @@ public class UserService {
 
     // 회원 탈퇴
     @Transactional
-    public UserDeleteDto deleteUser(User user){
-       // User user = userRepository.findOne(id);
+    public UserDeleteDto deleteUser(User user) {
+        // User user = userRepository.findOne(id);
         validateDeleteUser(user);
 
         UserDeleteDto userDeleteDto =
-                new UserDeleteDto(user.getName(),user.getNickname(),
-                        user.getEmail(),user.getPassword());
+                new UserDeleteDto(user.getName(), user.getNickname(),
+                        user.getEmail(), user.getPassword());
         userRepository.delete(user);
 
         return userDeleteDto;
     }
 
-    public void validateDeleteUser(User user)
-    {
+    public void validateDeleteUser(User user) {
         User finduser = userRepository.findOne(user.getId());
-        if(!finduser.getPassword().equals(user.getPassword()))
-        {
+        if (!finduser.getPassword().equals(user.getPassword())) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
     }
+
     @Transactional
-    public User SearchUserId(String name,String birth_date,String nickname )
-    {
-        User user = userRepository.findByNameWithBirthDate(name,birth_date,nickname);
-        validateSearchIdUser(user);
-        return user;
+    public User SearchUserId(String name, String birth_date, String nickname) {
+        try {
+            User user = userRepository.findByNameWithBirthDate(name, birth_date, nickname);  // singleResult
+            validateSearchIdUser(user);
+            return user;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private void validateSearchIdUser(User user) {
-        if(user == null)
-        {
+        if (user == null) {
             throw new IllegalStateException("올바른 정보를 입력하시오");
         }
 
     }
 
     @Transactional
-    public String SearchUserPw(String email)
-    {
-        User finduser = userRepository.findByEmail(email);
-        validateSearchPwUser(finduser);
+    public String SearchUserPw(String email) {
+        try {
+            User finduser = userRepository.findByEmail(email); // singleResult
+            validateSearchPwUser(finduser);
 
-        AfterValidateChangePw(finduser);
-        return finduser.getPassword();
+            AfterValidateChangePw(finduser);
+            return finduser.getPassword();
+        } catch (Exception e) {
+            System.out.println(e);
+            return "";
+        }
     }
 
     // 문자열 파싱해서 나중에 생일과 이것저것 조합해서 넣어주기
-    public void AfterValidateChangePw(User user)
-    {
+    public void AfterValidateChangePw(User user) {
         user.setPassword("1234");
     }
 
     public void validateSearchPwUser(User user) {
-        if(user == null)
-        {
+        if (user == null) {
             throw new IllegalStateException("존재하지 않는 이메일입니다");
         }
 
     }
 
 
-
     @Transactional
-    public void withdrawal(Long id){
+    public void withdrawal(Long id) {
         User user = userRepository.findOne(id);
 
         user.withdrawal();
     }
 
     //전체 조회
-    public List<User> findUsers(){
+    public List<User> findUsers() {
         return userRepository.findAll();
     }
+
     // 하나 아이디로 조회
-    public User findOne(Long userId){
+    public User findOne(Long userId) {
         return userRepository.findOne(userId);
     }
 
-    public User findByEmail(String userEmail)
-    {
+    public User findByEmail(String userEmail) {
         return userRepository.findByEmail(userEmail);
     }
 
