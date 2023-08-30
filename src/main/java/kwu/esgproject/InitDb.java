@@ -60,12 +60,12 @@ public class InitDb {
             Long commentId4 = commentService.saveComment(comment4);
 
             Company company1 = Company.createCompany("넷플릭스", "Ott기반 영상 서비스", "한국 어딘가", 10000);
-            Company company2 = Company.createCompany("왓챠", "Ott기반 영상 서비스", "한국 어딘가", 50000);
+            Company company2 = Company.createCompany("라프텔", "Ott기반 영상 서비스", "한국 어딘가", 50000);
             Long companyId1 = companyService.registration(company1);
             Long companyId2 = companyService.registration(company2);
 
             News news1 = News.createNews("넷플릭스 너무 비싸", company1, "너무 비싼데 재밌어서 본다고 전해져,,", "E");
-            News news2 = News.createNews("왓챠 너무 볼게없어", company2, "볼만한게 없다고 전해져,,", "E");
+            News news2 = News.createNews("라프텔 귀멸의 칼날 이번달까지", company2, "최대 애니 OTT인 라프텔에서 귀멸의 칼날을 이번달까지만 공개한다고 전해져,,", "E");
             Long newsId1 = newsService.registration(news1);
             Long newsId2 = newsService.registration(news2);
 

@@ -27,6 +27,9 @@ public class Post {
 
     private String detail;
 
+    @Enumerated(EnumType.STRING)
+    private Interest interest;
+
     @ElementCollection
     @CollectionTable(name = "post_tags", joinColumns = @JoinColumn(name = "post_id"))
     private List<String> tags;
@@ -66,6 +69,14 @@ public class Post {
 
     // tag 취소
 
+    public void setClose(){
+        this.open = Open.CLOSED;
+    }
+
+    public void setOpen(){
+        this.open = Open.OPEN;
+    }
+
     //==연관관계 메서드==//
     public void setUser(User user){
         this.user = user;
@@ -83,6 +94,7 @@ public class Post {
         post.setLikes(0);
         post.setShare(0);
         post.setOpen(Open.OPEN);
+        post.setPost_time(LocalDateTime.now());
 
         return post;
     }

@@ -61,6 +61,7 @@ public class Comment {
         comment.setPost(post);
         comment.setDetail(detail);
         comment.setLikes(0);
+        comment.setComment_time(LocalDateTime.now());
 
         return comment;
     }

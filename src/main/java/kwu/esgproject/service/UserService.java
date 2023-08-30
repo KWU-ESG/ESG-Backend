@@ -66,9 +66,13 @@ public class UserService {
     }
     private String validateLoginUser(LoginUserRequest loginUserRequest) {
         // email을 통해 1차적으로 있는지 확인
+<<<<<<< HEAD
         List<User> userList = userRepository.findListByEmail(loginUserRequest.getEmail());
 
         if(userList.isEmpty()){
+=======
+        if(user ==  null){
+>>>>>>> 2d7df2c12ec8b6ce813df5e697ebd8ab1e8dce94
             throw new IllegalStateException("존재하지 않는 아이디 입니다.");
         }
         else {

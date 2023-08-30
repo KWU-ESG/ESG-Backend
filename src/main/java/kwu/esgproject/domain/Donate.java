@@ -55,6 +55,9 @@ public class Donate {
         donate.setUser(user);
         donate.setCompany(company);
         donate.setAmount(amount);
+        donate.setDonate_time(LocalDateTime.now());
+        user.getTotalDonate();
+        company.getTotalDonate();
 
         return donate;
     }
