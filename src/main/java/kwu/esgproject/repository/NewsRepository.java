@@ -1,7 +1,9 @@
 package kwu.esgproject.repository;
 
 import kwu.esgproject.domain.Company;
+import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.News;
+import kwu.esgproject.domain.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -40,5 +42,13 @@ public class NewsRepository {
                 .setParameter("category", category)
                 .getResultList();
     }
+
+    public List<News> findByInterest(Interest interest){
+        return em.createQuery("select n from News n " +
+                        "where n.interest = :interest")
+                .setParameter("interest", interest)
+                .getResultList();
+    }
+
 
 }

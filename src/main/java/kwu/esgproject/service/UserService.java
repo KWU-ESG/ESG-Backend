@@ -46,7 +46,7 @@ public class UserService {
     private void validateLoginUser(User user,LoginUserRequest loginUserRequest) {
         // email을 통해 1차적으로 있는지 확인
         if(user ==  null){
-            throw new IllegalStateException("존재하는 아이디 입니다.");
+            throw new IllegalStateException("존재하지 않는 아이디 입니다.");
         }
         // 같은지 확인
         if(!user.getPassword().equals(loginUserRequest.getPassword())){

@@ -44,7 +44,7 @@ public class User {
 
     @ElementCollection
     @CollectionTable(name = "user_tags", joinColumns = @JoinColumn(name = "user_id"))
-    private List<String> prefer_tag;
+    private List<String> prefer_tag = new ArrayList<>();
 
     //==생성 메서드==//
     public static User createUser(String name, String nickname, String birth, String email, String password) {
@@ -55,6 +55,7 @@ public class User {
         user.setEmail(email);
         user.setPassword(password);
         user.setGrade(Grade.USER);
+        user.setCreate_time(LocalDateTime.now());
 
         return user;
     }
@@ -67,6 +68,7 @@ public class User {
         user.setEmail(email);
         user.setPassword(password);
         user.setGrade(Grade.ADMIN);
+        user.setCreate_time(LocalDateTime.now());
 
         return user;
     }
@@ -78,8 +80,8 @@ public class User {
     //==조회 로직==//
     public void getTotalDonate(){
         int totalDonate = 0;
-        for (Donate donate : donateList) {
-            totalDonate += donate.getAmount();
+        for (Donate donate : this.donateList) {
+            totalDonate = this.total_donation + donate.getAmount();
         }
         this.total_donation = totalDonate;
     }

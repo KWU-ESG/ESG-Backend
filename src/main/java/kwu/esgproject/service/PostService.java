@@ -39,7 +39,20 @@ public class PostService {
 
     public void validateDuplicatePost(Post post){
         List<Post> findPost = postRepository.findById(post.getId());
+    }
 
+    public Long closePost(Long postId){
+        Post findOne = postRepository.findOne(postId);
+        findOne.setClose();
+
+        return postId;
+    }
+
+    public Long openPost(Long postId){
+        Post findOne = postRepository.findOne(postId);
+        findOne.setOpen();
+
+        return postId;
     }
 
     //삭제
@@ -56,11 +69,10 @@ public class PostService {
 
     //수정??
     @Transactional
-    public void editPost(Long id , String title, String detail, List<String> tags){
+    public void editPost(Long id , String title, String detail){
         Post post = postRepository.findOne(id);
         post.setTitle(title);
         post.setDetail(detail);
-        post.setTags(tags);
         // 수정한 날짜를 다시 PostTime 으로 할 것인지 아니면 수정한 PostTime의 로그를 저장할 것인지 ?
         post.setPost_time(LocalDateTime.now());
 

@@ -1,5 +1,6 @@
 package kwu.esgproject.repository;
 
+import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -27,15 +28,22 @@ public class PostRepository {
                 .getResultList();
     }
 
-    public List<PostSimpleQueryDto> findOrderDtos(){ // User와 comment
-        return em.createQuery("select new kwu.esgproject.repository.PostSimpleQueryDto(new(p.id,p.detail,p.views,p.likes,p.share,p.open)) from Post p " +
-                        "join p.user u join p.commentList cml ")
-                .getResultList();
-
-    }
+//    public List<PostSimpleQueryDto> findOrderDtos(){ // User와 comment
+//        return em.createQuery("select new kwu.esgproject.repository.PostSimpleQueryDto(new p.id,p.detail,p.views,p.likes,p.share,p.open) from Post p " +
+//                        "join p.user u join p.commentList cml ")
+//                .getResultList();
+//
+//    }
 
     public List<Post> findById(Long id) {
         return em.createQuery("select p from Post p where p.id =: id", Post.class)
+                .getResultList();
+    }
+
+    public List<Post> findByInterest(Interest interest){
+        return em.createQuery("select p from Post p " +
+                "where p.interest = :interest")
+                .setParameter("interest", interest)
                 .getResultList();
     }
 

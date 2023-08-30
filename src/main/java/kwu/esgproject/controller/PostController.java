@@ -56,7 +56,7 @@ public class PostController{
             @PathVariable("id") Long id,
             @RequestBody @Valid EditPostRequest request
     ){
-        postService.editPost(id, request.getTitle(), request.getDetail(), request.getTags());
+        postService.editPost(id, request.getTitle(), request.getDetail());
         Post findPost = postService.findPost(id);
 
         return new EditPostResponse(findPost.getId(), findPost.getTitle(), findPost.getDetail(), findPost.getTags());

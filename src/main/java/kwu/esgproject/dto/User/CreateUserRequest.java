@@ -14,7 +14,4 @@ public class CreateUserRequest {
     private String password;
 
     private List<String> prefer_tag;
-
-
-
 }

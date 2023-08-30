@@ -22,6 +22,9 @@ public class News {
 
     private String title;
 
+    @Enumerated(EnumType.STRING)
+    private Interest interest;
+
     @ElementCollection
     @CollectionTable(name = "news_category", joinColumns = @JoinColumn(name = "news_id"))
     private List<String> category = new ArrayList<>();
@@ -61,6 +64,7 @@ public class News {
         for (String c : category) {
             news.getCategory().add(c);
         }
+        news.setNews_time(LocalDateTime.now());
 
         return news;
     }
