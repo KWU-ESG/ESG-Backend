@@ -34,21 +34,22 @@ public class UserController {
     }
 
 
+
     @PutMapping("/user/update/{user_id}")
-    public UpdateUserResponse UpdateUser(@PathVariable("user_id") Long userId)
+    public UpdateUserResponse UpdateUser(@PathVariable("user_id") Long userId ,@RequestBody @Valid UpdateUserRequest updateUserRequest)
     {
             User user = userService.findOne(userId);
-            userService.update(user.getId(),user.getEmail(), user.getPassword(),user.getPrefer_tag().toString());
+            userService.update(user.getId(),updateUserRequest.getNickname(), updateUserRequest.getEmail(),updateUserRequest.getPassword(), updateUserRequest.getPreferTags().toString());
 
             return new UpdateUserResponse(user.getName(),user.getNickname()
             ,user.getBirth_date(),user.getEmail(),user.getPassword(),user.getPrefer_tag());
     }
 
     @DeleteMapping("/user/delete/{user_id}")
-    public DeleteUserResponse DeleteUser(@PathVariable("user_id") Long userId)
+    public DeleteUserResponse DeleteUser(@PathVariable("user_id") Long userId ,@RequestBody @Valid DeleteUserRequest deleteUserRequest)
     {
             User user = userService.findOne(userId);
-            UserDeleteDto userDeleteDto = userService.deleteUser(user);
+            UserDeleteDto userDeleteDto = userService.deleteUser(user,deleteUserRequest.getPassword());
 
             return new DeleteUserResponse(userDeleteDto.getName(), userDeleteDto.getNickname(),
                     userDeleteDto.getEmail(), userDeleteDto.getPassword());
@@ -66,14 +67,10 @@ public class UserController {
     public SearchUserIdResponse SearchId(@RequestBody @Valid SearchUserIdRequest request)
     {
         //String email = userService.findByNameAndBirthDateAndNickname(request.getName(), request.getBirth_date(), request.getNickname()); // 이렇게 하면 안된다.
-        User user = userService.SearchUserId(request.getName(),request.getNickname(),request.getBirth_date());
+        User user = userService.SearchUserId(request.getName(),request.getBirth_date(),request.getNickname());
 
         return new SearchUserIdResponse(user.getEmail());
     }
-
-    // /user/id_search/view
-//    @GetMapping("/user/id_search/view")
-//    public
 
     @GetMapping("/user/password_search") // email로 찾기?  email로 임시 비번 발송 ?
     public SearchUserPwResponse SearchPw(@RequestBody @Valid SearchUserPwRequest request)
@@ -82,9 +79,6 @@ public class UserController {
 
         return new SearchUserPwResponse(userPw);
     }
-    // /user/new_password/view
-//    @GetMapping("/user/id_search/view")
-//    public
 
 
     @Data

@@ -2,6 +2,7 @@ package kwu.esgproject.service;
 
 import kwu.esgproject.domain.User;
 import kwu.esgproject.dto.User.LoginUserRequest;
+import kwu.esgproject.dto.User.UserDeleteDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,28 @@ public class UserServiceTest {
         String nickname1 = userService.Login(login1);
         System.out.println(nickname1);
 
+        userService.update(user1.getId(),"KimKim","1234@gamil.com","5555","E");
+        System.out.println(user1.getNickname() + " "+user1.getEmail() + " "+user1.getPassword()+ " " + user1.getPrefer_tag());
+
+        UserDeleteDto userDeleteDto = userService.deleteUser(user1,"1234");
+        System.out.println(userDeleteDto.getEmail()+" " + userDeleteDto.getPassword()+ " "+userDeleteDto.getNickname()+ " "+userDeleteDto.getName());
+        User deleteUser1 = userService.findOne(user1.getId());
+        if (deleteUser1 == null){
+            System.out.println("정상삭제되엇음");
+        }
 
 
+        userService.deleteUser(user2,"1111");
 
 
+        User SearchIdUser2 = userService.SearchUserId(user2.getName(),user2.getBirth_date(),user2.getNickname());
+        System.out.println(SearchIdUser2.getNickname() + " " + SearchIdUser2.getEmail() + " " + SearchIdUser2.getBirth_date());
+
+
+        User SearchIdWrongUser2 = userService.SearchUserId("메메시",user2.getBirth_date(),user2.getNickname());
+
+        String New_password = userService.SearchUserPw(user1.getEmail());
+        System.out.println(New_password);
 
 
     }

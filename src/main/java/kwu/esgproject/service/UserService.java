@@ -86,65 +86,99 @@ public class UserService {
     }
 
 
-    // 회원정보 수정
     @Transactional // 어디까지 수정하게 할지?  이메일, 비밀번호 , 태그
-    public void update(Long id, String email, String passward, String... preferTags) {
+    public void update(Long id,String nickname, String email, String password, String... preferTags) {
         User user = userRepository.findOne(id);
-        user.setEmail(email);
-        user.setPassword(passward);
+        try{
+            validateDuplicateUpdateUserNickname(user,nickname);
+            user.setNickname(nickname);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        try{
+            validateDuplicateUpdateUserEmail(user,email);
+            user.setEmail(email);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        user.setPassword(password);
         user.setPrefer_tag(Arrays.asList(preferTags)); // String [] -> List<String>
 
         // 나중에 Change 메서드로 변경??
     }
-
-
-    // 회원 탈퇴
-    @Transactional
-    public UserDeleteDto deleteUser(User user) {
-        // User user = userRepository.findOne(id);
-        validateDeleteUser(user);
-
-        UserDeleteDto userDeleteDto =
-                new UserDeleteDto(user.getName(), user.getNickname(),
-                        user.getEmail(), user.getPassword());
-        userRepository.delete(user);
-
-        return userDeleteDto;
+    private void validateDuplicateUpdateUserNickname(User user,String nickname) {
+        //nickname 중복체크
+        List<User> findUserNickname = userRepository.findListByNickName(nickname);
+        if (user.getNickname().equals(nickname)){
+            throw new IllegalStateException("같은 닉네임입니다");
+        }
+        if (!findUserNickname.isEmpty()) {
+            throw new IllegalStateException("존재하는 닉네임 입니다. ");
+        }
+    }
+    private void validateDuplicateUpdateUserEmail(User user, String email){
+        List<User> findUserEmail = userRepository.findListByEmail(email);
+        if (user.getEmail().equals(email)){
+            throw new IllegalStateException("같은 이메일입니다");
+        }
+        if (!findUserEmail.isEmpty()) {
+            throw new IllegalStateException("존재하는 이메일 입니다. ");
+        }
     }
 
-    public void validateDeleteUser(User user) {
+
+    @Transactional
+    public UserDeleteDto deleteUser(User user,String password) {
+        // User user = userRepository.findOne(id);
+        try {
+            validateDeleteUser(user, password);
+            UserDeleteDto userDeleteDto =
+                    new UserDeleteDto(user.getName(), user.getNickname(),
+                            user.getEmail(), user.getPassword());
+            userRepository.delete(user);
+            return userDeleteDto;
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+    public void validateDeleteUser(User user,String password) {
         User finduser = userRepository.findOne(user.getId());
-        if (!finduser.getPassword().equals(user.getPassword())) {
+        if (!finduser.getPassword().equals(password)) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
     }
 
+
+
     @Transactional
     public User SearchUserId(String name, String birth_date, String nickname) {
         try {
-            User user = userRepository.findByNameWithBirthDate(name, birth_date, nickname);  // singleResult
-            validateSearchIdUser(user);
-            return user;
+            validateSearchIdUser(name,birth_date,nickname);
+            return userRepository.findByNameWithBirthDate(name,birth_date,nickname);
         } catch (Exception e) {
+            System.out.println(e);
             return null;
         }
     }
 
-    private void validateSearchIdUser(User user) {
-        if (user == null) {
+
+
+    private void validateSearchIdUser(String name, String birth_date, String nickname) {
+        List<User> users = userRepository.findListByNameWithBirthDate(name, birth_date, nickname);  // singleResult
+        if (users.isEmpty()) {
             throw new IllegalStateException("올바른 정보를 입력하시오");
         }
-
     }
 
     @Transactional
     public String SearchUserPw(String email) {
         try {
-            User finduser = userRepository.findByEmail(email); // singleResult
-            validateSearchPwUser(finduser);
-
-            AfterValidateChangePw(finduser);
-            return finduser.getPassword();
+            validateSearchPwUser(email);
+            User user = userRepository.findByEmail(email);
+            AfterValidateChangePw(user);
+            return user.getPassword();
         } catch (Exception e) {
             System.out.println(e);
             return "";
@@ -156,8 +190,9 @@ public class UserService {
         user.setPassword("1234");
     }
 
-    public void validateSearchPwUser(User user) {
-        if (user == null) {
+    public void validateSearchPwUser(String email) {
+        List<User> findUser = userRepository.findListByEmail(email); // singleResult
+        if (findUser.isEmpty()) {
             throw new IllegalStateException("존재하지 않는 이메일입니다");
         }
 
