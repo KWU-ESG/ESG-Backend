@@ -1,6 +1,6 @@
 package kwu.esgproject.repository;
 
-import kwu.esgproject.domain.User;
+import  kwu.esgproject.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -44,9 +44,32 @@ public class UserRepository {
                 .getSingleResult();
     }
 
+    public List<User> findListByEmail(String email){
+        return  em.createQuery("select u from User u where u.email =: email",User.class)
+                .setParameter("email",email)
+                .getResultList();
+    }
+
+    public List<User> findListByNickname(String nickname){
+        return em.createQuery("select u from User u where u.nickname =: nickname", User.class)
+                .setParameter("nickname", nickname)
+                .getResultList();
+    }
+
     public User findByNameWithBirthDate(String name, String birthDate,String nickname) {
         return em.createQuery("select u from User u where u.name =: name " +
                         "and u.birth_date =:birthDate and u.nickname=:nickname", User.class)
+                .setParameter("name", name)
+                .setParameter("birthDate", birthDate)
+                .setParameter("nickname", nickname)
                 .getSingleResult();
+    }
+    public List<User> findListByNameWithBirthDate(String name, String birthDate,String nickname) {
+        return em.createQuery("select u from User u where u.name =: name " +
+                        "and u.birth_date =:birthDate and u.nickname=:nickname", User.class)
+                .setParameter("name", name)
+                .setParameter("birthDate", birthDate)
+                .setParameter("nickname", nickname)
+                .getResultList();
     }
 }

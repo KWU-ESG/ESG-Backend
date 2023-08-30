@@ -29,29 +29,29 @@ public class UserController {
 
     @PostMapping("/user/login")
     public LoginUserResponse LoginUser(@RequestBody @Valid LoginUserRequest request){
-        Long id = userService.Login(request);
-        return new LoginUserResponse(id);
+        String nickname = userService.Login(request);
+        return new LoginUserResponse(nickname);
     }
 
 
     @PutMapping("/user/update/{user_id}")
-    public UpdateUserResponse UpdateUser(@PathVariable("user_id") Long userId)
+    public UpdateUserResponse UpdateUser(@PathVariable("user_id") Long userId ,@RequestBody @Valid UpdateUserRequest updateUserRequest)
     {
-            User user = userService.findOne(userId);
-            userService.update(user.getId(),user.getEmail(), user.getPassword(),user.getPrefer_tag().toString());
+        User user = userService.findOne(userId);
+        userService.update(user.getId(),updateUserRequest.getNickname(), updateUserRequest.getEmail(),updateUserRequest.getPassword(), updateUserRequest.getInterest());
 
-            return new UpdateUserResponse(user.getName(),user.getNickname()
-            ,user.getBirth_date(),user.getEmail(),user.getPassword(),user.getPrefer_tag());
+        return new UpdateUserResponse(user.getName(),user.getNickname()
+                ,user.getBirth_date(),user.getEmail(),user.getPassword(),user.getInterest());
     }
 
     @DeleteMapping("/user/delete/{user_id}")
-    public DeleteUserResponse DeleteUser(@PathVariable("user_id") Long userId)
+    public DeleteUserResponse DeleteUser(@PathVariable("user_id") Long userId ,@RequestBody @Valid DeleteUserRequest deleteUserRequest)
     {
-            User user = userService.findOne(userId);
-            UserDeleteDto userDeleteDto = userService.deleteUser(user);
+        User user = userService.findOne(userId);
+        UserDeleteDto userDeleteDto = userService.deleteUser(user,deleteUserRequest.getPassword());
 
-            return new DeleteUserResponse(userDeleteDto.getName(), userDeleteDto.getNickname(),
-                    userDeleteDto.getEmail(), userDeleteDto.getPassword());
+        return new DeleteUserResponse(userDeleteDto.getName(), userDeleteDto.getNickname(),
+                userDeleteDto.getEmail(), userDeleteDto.getPassword());
     }
 
     @GetMapping("/user/info/{user_id}")
@@ -59,14 +59,15 @@ public class UserController {
     {
         User user = userService.findOne(userId);
 
-        return new CheckUserInfoResponse(user.getId(),user.getName(), user.getNickname(), user.getBirth_date(), user.getEmail(), user.getPassword(), user.getGrade(),user.getCreate_time(),user.getPostList(),user.getCommentList(),user.getDonateList(),user.getTotal_donation(),user.getPrefer_tag());
+        return new CheckUserInfoResponse(user.getId(),user.getName(), user.getNickname(), user.getBirth_date(), user.getEmail(), user.getPassword(),
+                user.getGrade(), user.getCreate_time(),user.getPostList(),user.getCommentList(),user.getDonateList(),user.getTotal_donation(), user.getInterest());
     }
 
     @GetMapping("/user/id_search") // email 찾기 이름과 생년원일로 찾아보자
     public SearchUserIdResponse SearchId(@RequestBody @Valid SearchUserIdRequest request)
     {
         //String email = userService.findByNameAndBirthDateAndNickname(request.getName(), request.getBirth_date(), request.getNickname()); // 이렇게 하면 안된다.
-        User user = userService.SearchUserId(request.getName(),request.getNickname(),request.getBirth_date());
+        User user = userService.SearchUserId(request.getName(),request.getBirth_date(),request.getNickname());
 
         return new SearchUserIdResponse(user.getEmail());
     }
@@ -97,10 +98,10 @@ public class UserController {
     }
     @Data
     static class LoginUserResponse{
-        private Long id;
+        private String nickname;
 
-        public LoginUserResponse(Long id) {
-            this.id = id;
+        public LoginUserResponse(String nickname) {
+            this.nickname = nickname;
         }
     }
 
@@ -123,7 +124,7 @@ public class UserController {
         private String email;
         private String password;
 
-        private List<String> prefer_tag;
+        private Interest interest;
 
     }
 
@@ -152,7 +153,7 @@ public class UserController {
 
         private int total_donation;
 
-        private List<String> prefer_tag;
+        private Interest interest;
 
     }
 
@@ -174,3 +175,4 @@ public class UserController {
         }
     }
 }
+
