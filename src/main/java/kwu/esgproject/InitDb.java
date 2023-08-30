@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
+import static kwu.esgproject.domain.Interest.*;
+
 @Component
 @RequiredArgsConstructor
 public class InitDb {
@@ -30,10 +32,10 @@ public class InitDb {
         private final NewsService newsService;
         private final DonationService donationService;
         public void dbInit1(){
-            User user1 = User.createUser("Shin", "Jammin", "020220", "sour_jam0220@naver.com", "qweasd123");
-            User user2 = User.createUser("Ye", "Yomi", "020720", "yeye@naver.com", "qweasd123");
-            User user3 = User.createUser("Sul", "Cucu", "990526", "sulyou@naver.com", "qweasd123");
-            User user4 = User.createUser("Gu", "Gook", "021020", "jungwon@naver.com", "qweasd123");
+            User user1 = User.createUser("Shin", "Jammin", "020220", "sour_jam0220@naver.com", "qweasd123", E);
+            User user2 = User.createUser("Ye", "Yomi", "020720", "yeye@naver.com", "qweasd123", S);
+            User user3 = User.createUser("Sul", "Cucu", "990526", "sulyou@naver.com", "qweasd123", G);
+            User user4 = User.createUser("Gu", "Gook", "021020", "jungwon@naver.com", "qweasd123", E);
             Long userId1 = userService.join(user1);
             Long userId2 = userService.join(user2);
             Long userId3 = userService.join(user3);

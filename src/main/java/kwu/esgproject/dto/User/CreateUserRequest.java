@@ -1,8 +1,7 @@
 package kwu.esgproject.dto.User;
 
+import kwu.esgproject.domain.Interest;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class CreateUserRequest {
@@ -12,9 +11,5 @@ public class CreateUserRequest {
     private String birth_date;
     private String email;
     private String password;
-
-    private List<String> prefer_tag;
-
-
-
+    private Interest interest;
 }

@@ -1,5 +1,6 @@
 package kwu.esgproject.service;
 
+import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.User;
 import kwu.esgproject.dto.User.LoginUserRequest;
 import kwu.esgproject.dto.User.UserDeleteDto;
@@ -21,113 +22,174 @@ public class UserService {
     @Transactional
     public Long join(User user){
         // 아이디 중복 체크 validate써서
-//        validateDuplicateJoinUser(user);
+        try {
+            validateDuplicateJoinUserEmail(user);
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        try{
+            validateDuplicateJoinUserNickname(user);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
         // 저장
         userRepository.save(user);
         return user.getId();
     }
+    private void validateDuplicateJoinUserEmail(User user) {
+        // ID로 중복체크
+        List<User> findUserEmail = userRepository.findListByEmail(user.getEmail());
+        if(!findUserEmail.isEmpty()){
+            throw new IllegalStateException("존재하는 이메일 입니다. ");
+        }
+    }
+    private void validateDuplicateJoinUserNickname(User user) {
+        //nickname 중복체크
+        List<User> findUserNickname = userRepository.findListByNickname(user.getNickname());
+        if(!findUserNickname.isEmpty()){
+            throw new IllegalStateException("존재하는 닉네임 입니다. ");
+        }
+    }
 
-    // 이름 닉네임 생일 이메일
-//    private void validateDuplicateJoinUser(User user) {
-//        // ID로 중복체크
-//        User findUser = userRepository.findByEmail(user.getEmail());
-//        if(findUser != null){
-//            throw new IllegalStateException("존재하는 아이디 입니다. ");
-//        }
-//    }
     // 로그인
     @Transactional
-    public Long Login(LoginUserRequest loginUserRequest) {
-        User user = userRepository.findByEmail(loginUserRequest.getEmail());
-        validateLoginUser(user,loginUserRequest);
-
-        return user.getId();
+    public String Login(LoginUserRequest loginUserRequest) {
+        try{
+            String nickname = validateLoginUser(loginUserRequest);
+            return nickname ; //userRepository.findByEmail(loginUserRequest.getEmail()).getNickname();
+        }catch (Exception e){
+            System.out.println(e);
+            return "";
+        }
     }
-    private void validateLoginUser(User user,LoginUserRequest loginUserRequest) {
+    private String validateLoginUser(LoginUserRequest loginUserRequest) {
         // email을 통해 1차적으로 있는지 확인
-        if(user ==  null){
-            throw new IllegalStateException("존재하는 아이디 입니다.");
+        List<User> userList = userRepository.findListByEmail(loginUserRequest.getEmail());
+
+        if(userList.isEmpty()){
+            throw new IllegalStateException("존재하지 않는 아이디 입니다.");
         }
-        // 같은지 확인
-        if(!user.getPassword().equals(loginUserRequest.getPassword())){
-            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        else {
+            User user = userRepository.findByEmail(loginUserRequest.getEmail());
+            // 같은지 확인
+            if (!user.getPassword().equals(loginUserRequest.getPassword())) {
+                throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+            } else {
+                return user.getNickname();
+            }
         }
     }
+
     // 회원정보 수정
     @Transactional // 어디까지 수정하게 할지?  이메일, 비밀번호 , 태그
-    public void update(Long id, String email, String passward, String ...preferTags){
+    public void update(Long id, String nickname, String email, String password, Interest interest) {
         User user = userRepository.findOne(id);
-        user.setEmail(email);
-        user.setPassword(passward);
-        user.setPrefer_tag(Arrays.asList(preferTags)); // String [] -> List<String>
+        try{
+            validateDuplicateUpdateUserNickname(user,nickname);
+            user.setNickname(nickname);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        try{
+            validateDuplicateUpdateUserEmail(user,email);
+            user.setEmail(email);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        user.setPassword(password);
+        user.setInterest(interest);
 
         // 나중에 Change 메서드로 변경??
     }
-
+    private void validateDuplicateUpdateUserNickname(User user,String nickname) {
+        //nickname 중복체크
+        List<User> findUserNickname = userRepository.findListByNickname(nickname);
+        if (user.getNickname().equals(nickname)){
+            throw new IllegalStateException("같은 닉네임입니다");
+        }
+        if (!findUserNickname.isEmpty()) {
+            throw new IllegalStateException("존재하는 닉네임 입니다. ");
+        }
+    }
+    private void validateDuplicateUpdateUserEmail(User user, String email){
+        List<User> findUserEmail = userRepository.findListByEmail(email);
+        if (user.getEmail().equals(email)){
+            throw new IllegalStateException("같은 이메일입니다");
+        }
+        if (!findUserEmail.isEmpty()) {
+            throw new IllegalStateException("존재하는 이메일 입니다. ");
+        }
+    }
 
     // 회원 탈퇴
     @Transactional
-    public UserDeleteDto deleteUser(User user){
-       // User user = userRepository.findOne(id);
-        validateDeleteUser(user);
-
-        UserDeleteDto userDeleteDto =
-                new UserDeleteDto(user.getName(),user.getNickname(),
-                        user.getEmail(),user.getPassword());
-        userRepository.delete(user);
-
-        return userDeleteDto;
+    public UserDeleteDto deleteUser(User user,String password) {
+        // User user = userRepository.findOne(id);
+        try {
+            validateDeleteUser(user, password);
+            UserDeleteDto userDeleteDto =
+                    new UserDeleteDto(user.getName(), user.getNickname(),
+                            user.getEmail(), user.getPassword()); //Dto 삭제된 정보 저장
+            userRepository.delete(user);
+            return userDeleteDto;
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
-    public void validateDeleteUser(User user)
-    {
+    public void validateDeleteUser(User user,String password) {
         User finduser = userRepository.findOne(user.getId());
-        if(!finduser.getPassword().equals(user.getPassword()))
-        {
+        if (!finduser.getPassword().equals(password)) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
     }
     @Transactional
-    public User SearchUserId(String name,String birth_date,String nickname )
-    {
-        User user = userRepository.findByNameWithBirthDate(name,birth_date,nickname);
-        validateSearchIdUser(user);
-        return user;
+    public User SearchUserId(String name, String birth_date, String nickname) {
+        try {
+            validateSearchIdUser(name,birth_date,nickname);
+            return userRepository.findByNameWithBirthDate(name, birth_date, nickname);
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
-
-    private void validateSearchIdUser(User user) {
-        if(user == null)
-        {
+    private void validateSearchIdUser(String name, String birth_date, String nickname) {
+        List<User> users = userRepository.findListByNameWithBirthDate(name, birth_date, nickname);  // singleResult
+        if (users.isEmpty()) {
             throw new IllegalStateException("올바른 정보를 입력하시오");
         }
 
     }
 
     @Transactional
-    public String SearchUserPw(String email)
-    {
-        User finduser = userRepository.findByEmail(email);
-        validateSearchPwUser(finduser);
-
-        AfterValidateChangePw(finduser);
-        return finduser.getPassword();
+    public String SearchUserPw(String email) {
+        try {
+            validateSearchPwUser(email);
+            User user = userRepository.findByEmail(email);
+            AfterValidateChangePw(user);
+            return user.getPassword();
+        } catch (Exception e) {
+            System.out.println(e);
+            return "";
+        }
     }
 
     // 문자열 파싱해서 나중에 생일과 이것저것 조합해서 넣어주기
-    public void AfterValidateChangePw(User user)
-    {
+    public void AfterValidateChangePw(User user) {
         user.setPassword("1234");
     }
 
-    public void validateSearchPwUser(User user) {
-        if(user == null)
-        {
+    public void validateSearchPwUser(String email) {
+        List<User> findUser = userRepository.findListByEmail(email); // singleResult
+        if (findUser.isEmpty()) {
             throw new IllegalStateException("존재하지 않는 이메일입니다");
         }
 
     }
-
-
 
     @Transactional
     public void withdrawal(Long id){
