@@ -1,5 +1,6 @@
 package kwu.esgproject.service;
 
+import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.User;
 import kwu.esgproject.dto.User.LoginUserRequest;
 import kwu.esgproject.dto.User.UserDeleteDto;
@@ -37,6 +38,20 @@ public class UserService {
         userRepository.save(user);
         return user.getId();
     }
+    private void validateDuplicateJoinUserEmail(User user) {
+        // ID로 중복체크
+        List<User> findUserEmail = userRepository.findListByEmail(user.getEmail());
+        if(!findUserEmail.isEmpty()){
+            throw new IllegalStateException("존재하는 이메일 입니다. ");
+        }
+    }
+    private void validateDuplicateJoinUserNickname(User user) {
+        //nickname 중복체크
+        List<User> findUserNickname = userRepository.findListByNickname(user.getNickname());
+        if(!findUserNickname.isEmpty()){
+            throw new IllegalStateException("존재하는 닉네임 입니다. ");
+        }
+    }
 
     // 이름 닉네임 생일 이메일
     private void validateDuplicateJoinUserEmail(User user) {
@@ -66,7 +81,6 @@ public class UserService {
             return "";
         }
     }
-
     private String validateLoginUser(LoginUserRequest loginUserRequest) {
         // email을 통해 1차적으로 있는지 확인
         List<User> userList = userRepository.findListByEmail(loginUserRequest.getEmail());
@@ -85,9 +99,9 @@ public class UserService {
         }
     }
 
-
+    // 회원정보 수정
     @Transactional // 어디까지 수정하게 할지?  이메일, 비밀번호 , 태그
-    public void update(Long id,String nickname, String email, String password, String... preferTags) {
+    public void update(Long id, String nickname, String email, String password, Interest interest) {
         User user = userRepository.findOne(id);
         try{
             validateDuplicateUpdateUserNickname(user,nickname);
@@ -102,13 +116,14 @@ public class UserService {
             System.out.println(e);
         }
         user.setPassword(password);
-        user.setPrefer_tag(Arrays.asList(preferTags)); // String [] -> List<String>
+        user.setInterest(interest);
 
         // 나중에 Change 메서드로 변경??
     }
     private void validateDuplicateUpdateUserNickname(User user,String nickname) {
         //nickname 중복체크
-        List<User> findUserNickname = userRepository.findListByNickName(nickname);
+        List<User> findUserNickname = userRepository.findListByNickname(nickname);
+      
         if (user.getNickname().equals(nickname)){
             throw new IllegalStateException("같은 닉네임입니다");
         }
@@ -126,7 +141,6 @@ public class UserService {
         }
     }
 
-
     @Transactional
     public UserDeleteDto deleteUser(User user,String password) {
         // User user = userRepository.findOne(id);
@@ -134,7 +148,7 @@ public class UserService {
             validateDeleteUser(user, password);
             UserDeleteDto userDeleteDto =
                     new UserDeleteDto(user.getName(), user.getNickname(),
-                            user.getEmail(), user.getPassword());
+                            user.getEmail(), user.getPassword()); //Dto 삭제된 정보 저장
             userRepository.delete(user);
             return userDeleteDto;
         }
@@ -143,6 +157,7 @@ public class UserService {
             return null;
         }
     }
+  
     public void validateDeleteUser(User user,String password) {
         User finduser = userRepository.findOne(user.getId());
         if (!finduser.getPassword().equals(password)) {
@@ -156,14 +171,12 @@ public class UserService {
     public User SearchUserId(String name, String birth_date, String nickname) {
         try {
             validateSearchIdUser(name,birth_date,nickname);
-            return userRepository.findByNameWithBirthDate(name,birth_date,nickname);
+            return userRepository.findByNameWithBirthDate(name, birth_date, nickname);
         } catch (Exception e) {
             System.out.println(e);
             return null;
         }
     }
-
-
 
     private void validateSearchIdUser(String name, String birth_date, String nickname) {
         List<User> users = userRepository.findListByNameWithBirthDate(name, birth_date, nickname);  // singleResult
@@ -197,7 +210,6 @@ public class UserService {
         }
 
     }
-
 
     @Transactional
     public void withdrawal(Long id) {

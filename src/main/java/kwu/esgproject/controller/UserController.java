@@ -38,21 +38,21 @@ public class UserController {
     @PutMapping("/user/update/{user_id}")
     public UpdateUserResponse UpdateUser(@PathVariable("user_id") Long userId ,@RequestBody @Valid UpdateUserRequest updateUserRequest)
     {
-            User user = userService.findOne(userId);
-            userService.update(user.getId(),updateUserRequest.getNickname(), updateUserRequest.getEmail(),updateUserRequest.getPassword(), updateUserRequest.getPreferTags().toString());
+        User user = userService.findOne(userId);
+        userService.update(user.getId(),updateUserRequest.getNickname(), updateUserRequest.getEmail(),updateUserRequest.getPassword(), updateUserRequest.getInterest());
 
-            return new UpdateUserResponse(user.getName(),user.getNickname()
-            ,user.getBirth_date(),user.getEmail(),user.getPassword(),user.getPrefer_tag());
+        return new UpdateUserResponse(user.getName(),user.getNickname()
+                ,user.getBirth_date(),user.getEmail(),user.getPassword(),user.getInterest());
     }
 
     @DeleteMapping("/user/delete/{user_id}")
     public DeleteUserResponse DeleteUser(@PathVariable("user_id") Long userId ,@RequestBody @Valid DeleteUserRequest deleteUserRequest)
     {
-            User user = userService.findOne(userId);
-            UserDeleteDto userDeleteDto = userService.deleteUser(user,deleteUserRequest.getPassword());
+        User user = userService.findOne(userId);
+        UserDeleteDto userDeleteDto = userService.deleteUser(user,deleteUserRequest.getPassword());
 
-            return new DeleteUserResponse(userDeleteDto.getName(), userDeleteDto.getNickname(),
-                    userDeleteDto.getEmail(), userDeleteDto.getPassword());
+        return new DeleteUserResponse(userDeleteDto.getName(), userDeleteDto.getNickname(),
+                userDeleteDto.getEmail(), userDeleteDto.getPassword());
     }
 
     @GetMapping("/user/info/{user_id}")
@@ -60,7 +60,8 @@ public class UserController {
     {
         User user = userService.findOne(userId);
 
-        return new CheckUserInfoResponse(user.getId(),user.getName(), user.getNickname(), user.getBirth_date(), user.getEmail(), user.getPassword(), user.getGrade(),user.getCreate_time(),user.getPostList(),user.getCommentList(),user.getDonateList(),user.getTotal_donation(),user.getPrefer_tag());
+        return new CheckUserInfoResponse(user.getId(),user.getName(), user.getNickname(), user.getBirth_date(), user.getEmail(), user.getPassword(),
+                user.getGrade(), user.getCreate_time(),user.getPostList(),user.getCommentList(),user.getDonateList(),user.getTotal_donation(), user.getInterest());
     }
 
     @GetMapping("/user/id_search") // email 찾기 이름과 생년원일로 찾아보자
@@ -117,7 +118,7 @@ public class UserController {
         private String email;
         private String password;
 
-        private List<String> prefer_tag;
+        private Interest interest;
 
     }
 
@@ -146,7 +147,7 @@ public class UserController {
 
         private int total_donation;
 
-        private List<String> prefer_tag;
+        private Interest interest;
 
     }
 
@@ -168,3 +169,4 @@ public class UserController {
         }
     }
 }
+

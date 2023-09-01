@@ -27,6 +27,9 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    private Interest interest;
+
+    @Enumerated(EnumType.STRING)
     private Grade grade;
 
     private LocalDateTime create_time;
@@ -42,19 +45,24 @@ public class User {
 
     private int total_donation;
 
+<<<<<<< HEAD
+=======
     @ElementCollection
     @CollectionTable(name = "user_tags", joinColumns = @JoinColumn(name = "user_id"))
-    private List<String> prefer_tag;
+    private List<String> prefer_tag = new ArrayList<>();
 
+>>>>>>> 2d7df2c12ec8b6ce813df5e697ebd8ab1e8dce94
     //==생성 메서드==//
-    public static User createUser(String name, String nickname, String birth, String email, String password) {
+    public static User createUser(String name, String nickname, String birth, String email, String password, Interest interest) {
         User user = new User();
         user.setName(name);
         user.setNickname(nickname);
         user.setBirth_date(birth);
         user.setEmail(email);
         user.setPassword(password);
+        user.setInterest(interest);
         user.setGrade(Grade.USER);
+        user.setCreate_time(LocalDateTime.now());
 
         return user;
     }
@@ -66,20 +74,18 @@ public class User {
         user.setBirth_date(birth);
         user.setEmail(email);
         user.setPassword(password);
+        user.setInterest(Interest.E);
         user.setGrade(Grade.ADMIN);
+        user.setCreate_time(LocalDateTime.now());
 
         return user;
-    }
-
-    public void addTag(String tag){
-        this.getPrefer_tag().add(tag);
     }
 
     //==조회 로직==//
     public void getTotalDonate(){
         int totalDonate = 0;
-        for (Donate donate : donateList) {
-            totalDonate += donate.getAmount();
+        for (Donate donate : this.donateList) {
+            totalDonate = this.total_donation + donate.getAmount();
         }
         this.total_donation = totalDonate;
     }

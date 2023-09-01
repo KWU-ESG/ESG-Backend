@@ -1,6 +1,6 @@
 package kwu.esgproject.repository;
 
-import kwu.esgproject.domain.User;
+import  kwu.esgproject.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +17,7 @@ public class UserRepository {
         em.persist(user);
     }
 
-    public void delete(User user) { em.persist(user);}
+    public void delete(User user) { em.remove(user);}
     public User findOne(Long id){ // id로 하나 조회
 
         return em.find(User.class,id);
@@ -50,20 +50,22 @@ public class UserRepository {
                 .getResultList();
     }
 
-    public List<User> findListByNickName(String nickname){
-        return  em.createQuery("select u from User u where u.nickname =: nickname",User.class)
-                .setParameter("nickname",nickname)
+
+    public List<User> findListByNickname(String nickname){
+        return em.createQuery("select u from User u where u.nickname =: nickname", User.class)
+                .setParameter("nickname", nickname)
                 .getResultList();
     }
 
     public User findByNameWithBirthDate(String name, String birthDate,String nickname) {
         return em.createQuery("select u from User u where u.name =: name " +
                         "and u.birth_date =:birthDate and u.nickname=:nickname", User.class)
-                .setParameter("name",name)
-                .setParameter("birthDate",birthDate)
-                .setParameter("nickname",nickname)
+                .setParameter("name", name)
+                .setParameter("birthDate", birthDate)
+                .setParameter("nickname", nickname)
                 .getSingleResult();
     }
+  
     public List<User> findListByNameWithBirthDate(String name, String birthDate,String nickname) {
         return em.createQuery("select u from User u where u.name =: name " +
                         "and u.birth_date =:birthDate and u.nickname=:nickname", User.class)
@@ -72,10 +74,10 @@ public class UserRepository {
                 .setParameter("nickname",nickname)
                 .getResultList();
     }
+  
     public User findByNickname(String nickname){
         return em.createQuery("select u from User u where u.nickname =: nickname", User.class)
                 .setParameter("nickname", nickname)
                 .getSingleResult();
     }
-
 }
