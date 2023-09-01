@@ -20,18 +20,18 @@ public class UserService {
 
     // 회원 가입
     @Transactional
-    public Long join(User user){
+    public Long join(User user) {
         // 아이디 중복 체크 validate써서
         try {
-            validateDuplicateJoinUserEmail(user);
-        }
-        catch(Exception e){
+            validateDuplicateJoinUserEmail(user);  // singleResult 를 사용해서 data를 가져오게 될때 DB에 값이 없다면
+            // .EmptyResultDataAccessException: No entity found for query; nested exception is javax.persistence.NoResultException: No entity found for query
+            // 이런 오류가 나오고 그렇기 때문에 try catch를 통해서 관리해줘야한다.
+        } catch (Exception e) {
             System.out.println(e);
         }
-        try{
+        try {
             validateDuplicateJoinUserNickname(user);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         // 저장
@@ -53,6 +53,23 @@ public class UserService {
         }
     }
 
+    // 이름 닉네임 생일 이메일
+    private void validateDuplicateJoinUserEmail(User user) {
+        // ID로 중복체크
+        User findUserEmail = userRepository.findByEmail(user.getEmail());
+        if (findUserEmail != null) {
+            throw new IllegalStateException("존재하는 이메일 입니다. ");
+        }
+    }
+
+    private void validateDuplicateJoinUserNickname(User user) {
+        //nickname 중복체크
+        User findUserNickname = userRepository.findByNickname(user.getNickname());
+        if (findUserNickname != null) {
+            throw new IllegalStateException("존재하는 닉네임 입니다. ");
+        }
+    }
+
     // 로그인
     @Transactional
     public String Login(LoginUserRequest loginUserRequest) {
@@ -66,13 +83,9 @@ public class UserService {
     }
     private String validateLoginUser(LoginUserRequest loginUserRequest) {
         // email을 통해 1차적으로 있는지 확인
-<<<<<<< HEAD
         List<User> userList = userRepository.findListByEmail(loginUserRequest.getEmail());
 
         if(userList.isEmpty()){
-=======
-        if(user ==  null){
->>>>>>> 2d7df2c12ec8b6ce813df5e697ebd8ab1e8dce94
             throw new IllegalStateException("존재하지 않는 아이디 입니다.");
         }
         else {
@@ -110,6 +123,7 @@ public class UserService {
     private void validateDuplicateUpdateUserNickname(User user,String nickname) {
         //nickname 중복체크
         List<User> findUserNickname = userRepository.findListByNickname(nickname);
+      
         if (user.getNickname().equals(nickname)){
             throw new IllegalStateException("같은 닉네임입니다");
         }
@@ -127,7 +141,6 @@ public class UserService {
         }
     }
 
-    // 회원 탈퇴
     @Transactional
     public UserDeleteDto deleteUser(User user,String password) {
         // User user = userRepository.findOne(id);
@@ -144,13 +157,16 @@ public class UserService {
             return null;
         }
     }
-
+  
     public void validateDeleteUser(User user,String password) {
         User finduser = userRepository.findOne(user.getId());
         if (!finduser.getPassword().equals(password)) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
     }
+
+
+
     @Transactional
     public User SearchUserId(String name, String birth_date, String nickname) {
         try {
@@ -161,12 +177,12 @@ public class UserService {
             return null;
         }
     }
+
     private void validateSearchIdUser(String name, String birth_date, String nickname) {
         List<User> users = userRepository.findListByNameWithBirthDate(name, birth_date, nickname);  // singleResult
         if (users.isEmpty()) {
             throw new IllegalStateException("올바른 정보를 입력하시오");
         }
-
     }
 
     @Transactional
@@ -196,23 +212,23 @@ public class UserService {
     }
 
     @Transactional
-    public void withdrawal(Long id){
+    public void withdrawal(Long id) {
         User user = userRepository.findOne(id);
 
         user.withdrawal();
     }
 
     //전체 조회
-    public List<User> findUsers(){
+    public List<User> findUsers() {
         return userRepository.findAll();
     }
+
     // 하나 아이디로 조회
-    public User findOne(Long userId){
+    public User findOne(Long userId) {
         return userRepository.findOne(userId);
     }
 
-    public User findByEmail(String userEmail)
-    {
+    public User findByEmail(String userEmail) {
         return userRepository.findByEmail(userEmail);
     }
 
