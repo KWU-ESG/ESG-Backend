@@ -1,6 +1,7 @@
 package kwu.esgproject.post;
 
 import kwu.esgproject.domain.Comment;
+import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.Post;
 import kwu.esgproject.domain.User;
 import kwu.esgproject.repository.CommentRepository;
@@ -33,8 +34,8 @@ public class CommentTest {
     @Test
     public void createComment() throws Exception {
         //given
-        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!");
-        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!");
+        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!", Interest.E);
+        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!", Interest.S);
         Long userId1 = userService.join(user1);
         Long userId2 = userService.join(user2);
 
@@ -51,9 +52,9 @@ public class CommentTest {
     @Test
     public void repositoryTest() throws Exception {
         //given
-        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!");
-        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!");
-        User user3 = User.createUser("syj", "sul", "990208", "QndQkd@naver.com", "qwe123!");
+        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!", Interest.E);
+        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!", Interest.S);
+        User user3 = User.createUser("syj", "sul", "990208", "QndQkd@naver.com", "qwe123!", Interest.G);
         Long userId1 = userService.join(user1);
         Long userId2 = userService.join(user2);
         Long userId3 = userService.join(user3);
@@ -87,9 +88,9 @@ public class CommentTest {
     @Test
     public void serviceTest() throws Exception {
         //given
-        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!");
-        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!");
-        User user3 = User.createUser("syj", "sul", "990208", "QndQkd@naver.com", "qwe123!");
+        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!", Interest.E);
+        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!", Interest.S);
+        User user3 = User.createUser("syj", "sul", "990208", "QndQkd@naver.com", "qwe123!", Interest.G);
         Long userId1 = userService.join(user1);
         Long userId2 = userService.join(user2);
         Long userId3 = userService.join(user3);
