@@ -53,23 +53,6 @@ public class UserService {
         }
     }
 
-    // 이름 닉네임 생일 이메일
-    private void validateDuplicateJoinUserEmail(User user) {
-        // ID로 중복체크
-        User findUserEmail = userRepository.findByEmail(user.getEmail());
-        if (findUserEmail != null) {
-            throw new IllegalStateException("존재하는 이메일 입니다. ");
-        }
-    }
-
-    private void validateDuplicateJoinUserNickname(User user) {
-        //nickname 중복체크
-        User findUserNickname = userRepository.findByNickname(user.getNickname());
-        if (findUserNickname != null) {
-            throw new IllegalStateException("존재하는 닉네임 입니다. ");
-        }
-    }
-
     // 로그인
     @Transactional
     public String Login(LoginUserRequest loginUserRequest) {

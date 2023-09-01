@@ -45,13 +45,10 @@ public class User {
 
     private int total_donation;
 
-<<<<<<< HEAD
-=======
     @ElementCollection
     @CollectionTable(name = "user_tags", joinColumns = @JoinColumn(name = "user_id"))
     private List<String> prefer_tag = new ArrayList<>();
 
->>>>>>> 2d7df2c12ec8b6ce813df5e697ebd8ab1e8dce94
     //==생성 메서드==//
     public static User createUser(String name, String nickname, String birth, String email, String password, Interest interest) {
         User user = new User();
