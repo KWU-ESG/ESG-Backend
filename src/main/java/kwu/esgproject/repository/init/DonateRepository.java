@@ -1,4 +1,4 @@
-package kwu.esgproject.repository;
+package kwu.esgproject.repository.init;
 
 import kwu.esgproject.domain.Donate;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +30,12 @@ public class DonateRepository {
         return em.createQuery("select d from Donate d " +
                 "where d.company.name =: companyName")
                 .setParameter("companyName", companyName)
+                .getResultList();
+    }
+    public List<Donate> findByCompanyId(Long companyId){
+        return em.createQuery("select d from Donate d " +
+                "where d.company.id =: companyId")
+                .setParameter("companyId", companyId)
                 .getResultList();
     }
 

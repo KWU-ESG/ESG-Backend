@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,7 +22,8 @@ import static org.junit.Assert.assertEquals;
 @Transactional
 public class UserRepositoryTest {
     @Autowired private EntityManager em;
-    @Autowired private UserRepository userRepository;
+//    @Autowired private UserRepository userRepository;
+    @Autowired private UserDataRepository userRepository;
     @Autowired private UserService userService;
 
     @Test
@@ -39,43 +41,38 @@ public class UserRepositoryTest {
         userRepository.save(user4);
         userRepository.save(user5);
         userRepository.save(user6);
-  
-        User testFindOne = userRepository.findOne(user1.getId());
+
+        User testFindOne = userRepository.findById(user1.getId()).get();
 
         // 같은 유저인지 확인
         assertEquals(user1,testFindOne);
 
         // email로 유저 찾기
-        User testFindEmail = userRepository.findByEmail(user1.getEmail());
+        User testFindEmail = userRepository.findUserByEmail(user1.getEmail()).get();
         assertEquals(user1,testFindEmail);
 
 
         // name 으로 유저 찾기 (중복 할 수 도 있다는 것)
-        List<User> FindWithNameUserList = userRepository.findByName(user5.getName());
+        List<User> FindWithNameUserList = userRepository.findUsersByName(user5.getName());
 
         for (User users: FindWithNameUserList) {
-            System.out.println(users.getName() + " "+ users.getNickname()+" "+users.getBirth_date()+" "+users.getEmail()+ " "+users.getPassword());
+            System.out.println(users.getName() + " "+ users.getNickname()+" "+users.getBirthDate()+" "+users.getEmail()+ " "+users.getPassword());
         }
-
-
-        // name email nickname 으로 찾기
-        User testFindWithName_Email_Nickname = userRepository.findByNameWithBirthDate(user1.getName(),user1.getBirth_date(),user1.getNickname());
-        assertEquals(user1, testFindWithName_Email_Nickname);
   
         // 전체 유저확인
         List<User> userList = userRepository.findAll();
 
         for (User users : userList) {
-            System.out.println(users.getName() + " "+ users.getNickname()+" "+users.getBirth_date()+" "+users.getEmail()+ " "+users.getPassword());
+            System.out.println(users.getName() + " "+ users.getNickname()+" "+users.getBirthDate()+" "+users.getEmail()+ " "+users.getPassword());
         }
 
         // 유저 삭제
         userRepository.delete(user1);
 
         // 유저 삭제후 정상 삭제라면 null
-        User TestAfterDelete = userRepository.findOne(user1.getId());
+        Optional<User> userById = userRepository.findById(user1.getId());
 
-        if(TestAfterDelete == null){
+        if(userById.isEmpty()){
             System.out.println("정상 삭제 테스트임");
         }
         else{

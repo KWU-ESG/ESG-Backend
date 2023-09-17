@@ -1,4 +1,4 @@
-package kwu.esgproject.repository;
+package kwu.esgproject.repository.init;
 
 import  kwu.esgproject.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +59,7 @@ public class UserRepository {
 
     public User findByNameWithBirthDate(String name, String birthDate,String nickname) {
         return em.createQuery("select u from User u where u.name =: name " +
-                        "and u.birth_date =:birthDate and u.nickname=:nickname", User.class)
+                        "and u.birthDate =:birthDate and u.nickname=:nickname", User.class)
                 .setParameter("name", name)
                 .setParameter("birthDate", birthDate)
                 .setParameter("nickname", nickname)
@@ -68,7 +68,7 @@ public class UserRepository {
   
     public List<User> findListByNameWithBirthDate(String name, String birthDate,String nickname) {
         return em.createQuery("select u from User u where u.name =: name " +
-                        "and u.birth_date =:birthDate and u.nickname=:nickname", User.class)
+                        "and u.birthDate =:birthDate and u.nickname=:nickname", User.class)
                 .setParameter("name",name)
                 .setParameter("birthDate",birthDate)
                 .setParameter("nickname",nickname)

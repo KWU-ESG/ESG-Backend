@@ -1,7 +1,9 @@
 package kwu.esgproject.service;
 
 import kwu.esgproject.domain.Company;
-import kwu.esgproject.repository.CompanyRepository;
+import kwu.esgproject.repository.CommentDataRepository;
+import kwu.esgproject.repository.CompanyDataRepository;
+import kwu.esgproject.repository.init.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,32 +14,33 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CompanyService {
-    private final CompanyRepository companyRepository;
+//    private final CompanyRepository companyRepository;
+    private final CompanyDataRepository companyDataRepository;
 
     public Long registration(Company company){
-        companyRepository.save(company);
+        companyDataRepository.save(company);
         return company.getId();
     }
 
     public Company findCompany(Long companyId){
-        return companyRepository.findOne(companyId);
+        return companyDataRepository.findById(companyId).orElseThrow();
     }
 
     public List<Company> findAllCompany(){
-        return companyRepository.findAll();
+        return companyDataRepository.findAll();
     }
 
     public Company findByName(String name){
-        return companyRepository.findByName(name);
+        return companyDataRepository.findCompanyByName(name).orElseThrow();
     }
 
-    public List<Company> recommendCompanyByOneTag(String tag){
-        return companyRepository.recommendByOneTag(tag);
-    }
+//    public List<Company> recommendCompanyByOneTag(String tag){
+//        return companyDataRepository.recommendByOneTag(tag);
+//    }
 
     @Transactional
     public void editCompanyDetail(Long companyId, String name, List<String> tags, String description, String location, int stock){
-        Company company = companyRepository.findOne(companyId);
+        Company company = companyDataRepository.findById(companyId).get();
         company.setName(name);
         company.setTags(tags);
         company.setDescription(description);
@@ -46,8 +49,8 @@ public class CompanyService {
     }
 
     public void deleteCompany(Long companyId){
-        Company company = companyRepository.findOne(companyId);
-        companyRepository.delete(company);
+        Company company = companyDataRepository.findById(companyId).get();
+        companyDataRepository.delete(company);
     }
 
 }

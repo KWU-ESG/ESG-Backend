@@ -3,9 +3,12 @@ package kwu.esgproject.service;
 import kwu.esgproject.domain.Comment;
 import kwu.esgproject.domain.Post;
 import kwu.esgproject.domain.User;
-import kwu.esgproject.repository.CommentRepository;
-import kwu.esgproject.repository.PostRepository;
-import kwu.esgproject.repository.UserRepository;
+import kwu.esgproject.repository.CommentDataRepository;
+import kwu.esgproject.repository.PostDataRepository;
+import kwu.esgproject.repository.UserDataRepository;
+import kwu.esgproject.repository.init.CommentRepository;
+import kwu.esgproject.repository.init.PostRepository;
+import kwu.esgproject.repository.init.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,22 +21,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentService {
 
-    private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
+//    private final CommentRepository commentRepository;
+//    private final PostRepository postRepository;
+//    private final UserRepository userRepository;
+    private final CommentDataRepository commentDataRepository;
+    private final PostDataRepository postDataRepository;
+    private final UserDataRepository userDataRepository;
 
     public Long saveComment(Comment comment){
-        commentRepository.save(comment);
+        commentDataRepository.save(comment);
         return comment.getId();
     }
 
     // 댓글 생성
     public Long saveComment(Long userID, Long postID, String detail){
-        User user = userRepository.findOne(userID);
-        Post post = postRepository.findOne(postID);
+        User user = userDataRepository.findById(userID).get();
+        Post post = postDataRepository.findById(postID).get();
 
         Comment comment = Comment.createComment(user,post,detail);
-        commentRepository.save(comment);
+        commentDataRepository.save(comment);
 
         return comment.getId();
     }
@@ -44,16 +50,16 @@ public class CommentService {
     public void deleteComment(Long postId, Long commentId)
     {
         validateUpdateComment(postId);
-        Comment comment = commentRepository.findOne(commentId);
-        commentRepository.delete(comment);
+        Comment comment = commentDataRepository.findById(commentId).get();
+        commentDataRepository.delete(comment);
 
     }
     public void validateDeleteComment(Long postId ,Long commentId){
-        Post findpost= postRepository.findOne(postId);
-        if(findpost == null){
+        Post findPost= postDataRepository.findById(postId).get();
+        if(findPost == null){
             throw new IllegalStateException("이미 삭제된 게시글입니다");
         }
-        Comment comment = commentRepository.findOne(commentId);
+        Comment comment = commentDataRepository.findById(commentId).get();
         if(comment == null){
             throw new IllegalStateException("이미 삭제된 댓글입니다");
         }
@@ -66,7 +72,7 @@ public class CommentService {
     public void updateComment(Long postId, Long commentId, String detail){
 
         validateUpdateComment(postId);
-        Comment comment = commentRepository.findOne(commentId);
+        Comment comment = commentDataRepository.findById(commentId).get();
         comment.setDetail(detail);
         comment.setComment_time(LocalDateTime.now()); // comment Time을 다시 수정할 것인가?
 
@@ -76,8 +82,8 @@ public class CommentService {
     // 게시글이 먼저 삭제 되었을 때
     public void validateUpdateComment(Long postId)
     {
-        Post findpost= postRepository.findOne(postId);
-        if(findpost == null){
+        Post findPost= postDataRepository.findById(postId).get();
+        if(findPost == null){
             throw new IllegalStateException("이미 삭제된 게시글입니다");
         }
 
@@ -88,11 +94,11 @@ public class CommentService {
 
     // 한개 조회
     public Comment findOne(Long id){
-        return commentRepository.findOne(id);
+        return commentDataRepository.findById(id).orElseThrow();
     }
     // 전체 조회
     public List<Comment> findComments(){
-        return commentRepository.findAll();
+        return commentDataRepository.findAll();
     }
 
     // Post에 있는 댓글 조회?

@@ -3,7 +3,7 @@ package kwu.esgproject.post;
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.Post;
 import kwu.esgproject.domain.User;
-import kwu.esgproject.repository.PostRepository;
+import kwu.esgproject.repository.init.PostRepository;
 import kwu.esgproject.service.PostService;
 import kwu.esgproject.service.UserService;
 import org.junit.Assert;

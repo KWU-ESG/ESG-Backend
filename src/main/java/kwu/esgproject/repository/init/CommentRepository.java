@@ -1,4 +1,4 @@
-package kwu.esgproject.repository;
+package kwu.esgproject.repository.init;
 
 import kwu.esgproject.domain.Comment;
 import lombok.RequiredArgsConstructor;

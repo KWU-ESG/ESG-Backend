@@ -22,7 +22,7 @@ public class User {
 
     private String name;
     private String nickname;
-    private String birth_date;
+    private String birthDate;
     private String email;
     private String password;
 
@@ -54,7 +54,7 @@ public class User {
         User user = new User();
         user.setName(name);
         user.setNickname(nickname);
-        user.setBirth_date(birth);
+        user.setBirthDate(birth);
         user.setEmail(email);
         user.setPassword(password);
         user.setInterest(interest);
@@ -68,7 +68,7 @@ public class User {
         User user = new User();
         user.setName(name);
         user.setNickname(nickname);
-        user.setBirth_date(birth);
+        user.setBirthDate(birth);
         user.setEmail(email);
         user.setPassword(password);
         user.setInterest(Interest.E);

@@ -1,4 +1,4 @@
-package kwu.esgproject.repository;
+package kwu.esgproject.repository.init;
 
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.Post;
@@ -29,7 +29,7 @@ public class PostRepository {
     }
 
 //    public List<PostSimpleQueryDto> findOrderDtos(){ // User와 comment
-//        return em.createQuery("select new kwu.esgproject.repository.PostSimpleQueryDto(new p.id,p.detail,p.views,p.likes,p.share,p.open) from Post p " +
+//        return em.createQuery("select new kwu.esgproject.repository.init.PostSimpleQueryDto(new p.id,p.detail,p.views,p.likes,p.share,p.open) from Post p " +
 //                        "join p.user u join p.commentList cml ")
 //                .getResultList();
 //
