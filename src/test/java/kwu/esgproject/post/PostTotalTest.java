@@ -1,8 +1,9 @@
 package kwu.esgproject.post;
 
+import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.Post;
 import kwu.esgproject.domain.User;
-import kwu.esgproject.repository.PostRepository;
+import kwu.esgproject.repository.init.PostRepository;
 import kwu.esgproject.service.PostService;
 import kwu.esgproject.service.UserService;
 import org.junit.Assert;
@@ -31,8 +32,8 @@ public class PostTotalTest {
     @Test
     public void createPost() throws Exception {
         //given
-        User user = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!");
-        User user1 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!");
+        User user = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!", Interest.E);
+        User user1 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!", Interest.S);
         Long userId = userService.join(user);
         Long userId1 = userService.join(user1);
 
@@ -56,8 +57,8 @@ public class PostTotalTest {
     @Test
     public void repositoryTest() throws Exception {
         //given
-        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!");
-        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!");
+        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!", Interest.E);
+        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!", Interest.S);
         Long userId1 = userService.join(user1);
         Long userId2 = userService.join(user2);
 
@@ -92,8 +93,8 @@ public class PostTotalTest {
     @Test
     public void serviceTest() throws Exception {
         //given
-        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!");
-        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!");
+        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!", Interest.E);
+        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!", Interest.S);
         Long userId1 = userService.join(user1);
         Long userId2 = userService.join(user2);
 

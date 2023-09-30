@@ -22,7 +22,7 @@ public class User {
 
     private String name;
     private String nickname;
-    private String birth_date;
+    private String birthDate;
     private String email;
     private String password;
 
@@ -45,19 +45,16 @@ public class User {
 
     private int total_donation;
 
-<<<<<<< HEAD
-=======
     @ElementCollection
     @CollectionTable(name = "user_tags", joinColumns = @JoinColumn(name = "user_id"))
     private List<String> prefer_tag = new ArrayList<>();
 
->>>>>>> 2d7df2c12ec8b6ce813df5e697ebd8ab1e8dce94
     //==생성 메서드==//
     public static User createUser(String name, String nickname, String birth, String email, String password, Interest interest) {
         User user = new User();
         user.setName(name);
         user.setNickname(nickname);
-        user.setBirth_date(birth);
+        user.setBirthDate(birth);
         user.setEmail(email);
         user.setPassword(password);
         user.setInterest(interest);
@@ -71,7 +68,7 @@ public class User {
         User user = new User();
         user.setName(name);
         user.setNickname(nickname);
-        user.setBirth_date(birth);
+        user.setBirthDate(birth);
         user.setEmail(email);
         user.setPassword(password);
         user.setInterest(Interest.E);

@@ -34,6 +34,7 @@ public class UserController {
     }
 
 
+
     @PutMapping("/user/update/{user_id}")
     public UpdateUserResponse UpdateUser(@PathVariable("user_id") Long userId ,@RequestBody @Valid UpdateUserRequest updateUserRequest)
     {
@@ -41,7 +42,7 @@ public class UserController {
         userService.update(user.getId(),updateUserRequest.getNickname(), updateUserRequest.getEmail(),updateUserRequest.getPassword(), updateUserRequest.getInterest());
 
         return new UpdateUserResponse(user.getName(),user.getNickname()
-                ,user.getBirth_date(),user.getEmail(),user.getPassword(),user.getInterest());
+                ,user.getBirthDate(),user.getEmail(),user.getPassword(),user.getInterest());
     }
 
     @DeleteMapping("/user/delete/{user_id}")
@@ -59,7 +60,7 @@ public class UserController {
     {
         User user = userService.findOne(userId);
 
-        return new CheckUserInfoResponse(user.getId(),user.getName(), user.getNickname(), user.getBirth_date(), user.getEmail(), user.getPassword(),
+        return new CheckUserInfoResponse(user.getId(),user.getName(), user.getNickname(), user.getBirthDate(), user.getEmail(), user.getPassword(),
                 user.getGrade(), user.getCreate_time(),user.getPostList(),user.getCommentList(),user.getDonateList(),user.getTotal_donation(), user.getInterest());
     }
 
@@ -72,10 +73,6 @@ public class UserController {
         return new SearchUserIdResponse(user.getEmail());
     }
 
-    // /user/id_search/view
-//    @GetMapping("/user/id_search/view")
-//    public
-
     @GetMapping("/user/password_search") // email로 찾기?  email로 임시 비번 발송 ?
     public SearchUserPwResponse SearchPw(@RequestBody @Valid SearchUserPwRequest request)
     {
@@ -83,9 +80,6 @@ public class UserController {
 
         return new SearchUserPwResponse(userPw);
     }
-    // /user/new_password/view
-//    @GetMapping("/user/id_search/view")
-//    public
 
 
     @Data

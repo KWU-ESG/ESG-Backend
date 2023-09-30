@@ -1,9 +1,11 @@
 package kwu.esgproject.post;
 
 import kwu.esgproject.domain.Comment;
+import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.Post;
 import kwu.esgproject.domain.User;
-import kwu.esgproject.repository.CommentRepository;
+import kwu.esgproject.repository.CommentDataRepository;
+import kwu.esgproject.repository.init.CommentRepository;
 import kwu.esgproject.service.CommentService;
 import kwu.esgproject.service.PostService;
 import kwu.esgproject.service.UserService;
@@ -28,13 +30,15 @@ public class CommentTest {
     @Autowired
     private CommentRepository commentRepository;
     @Autowired
+    private CommentDataRepository commentDataRepository;
+    @Autowired
     private CommentService commentService;
 
     @Test
     public void createComment() throws Exception {
         //given
-        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!");
-        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!");
+        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!", Interest.E);
+        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!", Interest.S);
         Long userId1 = userService.join(user1);
         Long userId2 = userService.join(user2);
 
@@ -51,9 +55,9 @@ public class CommentTest {
     @Test
     public void repositoryTest() throws Exception {
         //given
-        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!");
-        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!");
-        User user3 = User.createUser("syj", "sul", "990208", "QndQkd@naver.com", "qwe123!");
+        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!", Interest.E);
+        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!", Interest.S);
+        User user3 = User.createUser("syj", "sul", "990208", "QndQkd@naver.com", "qwe123!", Interest.G);
         Long userId1 = userService.join(user1);
         Long userId2 = userService.join(user2);
         Long userId3 = userService.join(user3);
@@ -63,13 +67,13 @@ public class CommentTest {
 
         Comment comment1 = Comment.createComment(user2, post1, "헐 놀러가야지~");
         Comment comment2 = Comment.createComment(user3, post1, "나도갈뤱");
-        commentRepository.save(comment1);
-        commentRepository.save(comment2);
+        commentDataRepository.save(comment1);
+        commentDataRepository.save(comment2);
 
         //when
-        Comment find1 = commentRepository.findOne(comment1.getId());
-        Comment find2 = commentRepository.findOne(comment2.getId());
-        List<Comment> all = commentRepository.findAll();
+        Comment find1 = commentDataRepository.findById(comment1.getId()).get();
+        Comment find2 = commentDataRepository.findById(comment2.getId()).get();
+        List<Comment> all = commentDataRepository.findAll();
 
         //then
         Assert.assertEquals("코멘트가 제대로 등록되었는지 확인1", comment1, find1);
@@ -87,9 +91,9 @@ public class CommentTest {
     @Test
     public void serviceTest() throws Exception {
         //given
-        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!");
-        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!");
-        User user3 = User.createUser("syj", "sul", "990208", "QndQkd@naver.com", "qwe123!");
+        User user1 = User.createUser("pye", "yenii", "021011", "socute1011@naver.com", "qwe123!", Interest.E);
+        User user2 = User.createUser("jam", "jammin", "020220", "sour_jam0220@naver.com", "qwe123!", Interest.S);
+        User user3 = User.createUser("syj", "sul", "990208", "QndQkd@naver.com", "qwe123!", Interest.G);
         Long userId1 = userService.join(user1);
         Long userId2 = userService.join(user2);
         Long userId3 = userService.join(user3);

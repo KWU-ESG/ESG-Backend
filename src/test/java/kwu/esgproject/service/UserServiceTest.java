@@ -1,10 +1,8 @@
 package kwu.esgproject.service;
-
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.User;
 import kwu.esgproject.dto.User.LoginUserRequest;
-import kwu.esgproject.dto.User.UserDeleteDto;
-import kwu.esgproject.repository.UserRepository;
+import kwu.esgproject.repository.init.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,7 @@ public class UserServiceTest {
         userService.join(user4);
         userService.join(user5);
         userService.join(user6);
+
 
         //로그인
         LoginUserRequest login1 = new LoginUserRequest(user1.getEmail(), user1.getPassword());

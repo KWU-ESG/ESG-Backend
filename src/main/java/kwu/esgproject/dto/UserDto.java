@@ -31,7 +31,7 @@ public class UserDto {
         userDto.setId(user.getId());
         userDto.setName(user.getName());
         userDto.setNickname(user.getNickname());
-        userDto.setBirthday(user.getBirth_date());
+        userDto.setBirthday(user.getBirthDate());
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
         userDto.setInterest(user.getInterest());
