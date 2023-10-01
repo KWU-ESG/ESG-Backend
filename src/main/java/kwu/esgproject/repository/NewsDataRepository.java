@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface NewsDataRepository extends JpaRepository<News, Long>, NewsDataRepositoryCustom {
-
+    List<News> findByCompanyId(Long id);
 }

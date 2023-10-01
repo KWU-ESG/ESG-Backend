@@ -1,9 +1,6 @@
 package kwu.esgproject.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class News {
     @Id
@@ -54,16 +52,14 @@ public class News {
     }
 
     //==생성 메서드==//
-    public static News createNews(String title, Company company, String content, String ...category){
+    public static News createNews(String title, Company company, String content, Interest interest){
         News news = new News();
         news.setTitle(title);
         news.setCompany(company);
         news.setContent(content);
         news.setLikes(0);
         news.setUnlikes(0);
-        for (String c : category) {
-            news.getCategory().add(c);
-        }
+        news.setInterest(interest);
         news.setNews_time(LocalDateTime.now());
 
         return news;
