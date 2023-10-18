@@ -5,6 +5,6 @@ import kwu.esgproject.dto.PostListDto;
 
 import java.util.List;
 
-public interface PostDataRepositoryCustom {
+public interface PostRepositoryCustom {
     List<PostListDto> searchByInterest(Interest interest);
 }

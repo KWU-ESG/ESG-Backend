@@ -3,7 +3,6 @@ package kwu.esgproject.repository;
 import kwu.esgproject.domain.Company;
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.News;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,22 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class NewsDataRepositoryTest {
+class NewsRepositoryTest {
     @Autowired
-    private UserDataRepository userDataRepository;
+    private UserRepository userRepository;
     @Autowired
-    private CompanyDataRepository companyDataRepository;
+    private CompanyRepository companyRepository;
     @Autowired
-    private NewsDataRepository newsDataRepository;
+    private NewsRepository newsRepository;
 
     @Test
     public void searchByCompany() throws Exception {
-        List<Company> companies = companyDataRepository.findAll();
-        List<News> result = newsDataRepository.findByCompanyId(companies.get(1).getId());
+        List<Company> companies = companyRepository.findAll();
+        List<News> result = newsRepository.findByCompanyId(companies.get(1).getId());
 
         for (News news : result) {
             System.out.println("news = " + news);
@@ -38,7 +36,7 @@ class NewsDataRepositoryTest {
 
     @Test
     public void searchByTitle() throws Exception {
-        List<News> result = newsDataRepository.searchByTitle("뉴스");
+        List<News> result = newsRepository.searchByTitle("뉴스");
 
         for (News news : result) {
             System.out.println("news = " + news);
@@ -49,7 +47,7 @@ class NewsDataRepositoryTest {
 
     @Test
     public void searchByContent() throws Exception {
-        List<News> result = newsDataRepository.searchByContent("재민이");
+        List<News> result = newsRepository.searchByContent("재민이");
 
         for (News news : result) {
             System.out.println("news = " + news);
@@ -60,7 +58,7 @@ class NewsDataRepositoryTest {
 
     @Test
     public void searchByInterest() throws Exception {
-        List<News> result = newsDataRepository.searchByInterest(Interest.E);
+        List<News> result = newsRepository.searchByInterest(Interest.E);
 
         for (News news : result) {
             System.out.println("news = " + news);

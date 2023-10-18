@@ -46,6 +46,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final ListPath<String, StringPath> prefer_tag = this.<String, StringPath>createList("prefer_tag", String.class, StringPath.class, PathInits.DIRECT2);
 
+    public final ListPath<String, StringPath> roles = this.<String, StringPath>createList("roles", String.class, StringPath.class, PathInits.DIRECT2);
+
     public final NumberPath<Integer> total_donation = createNumber("total_donation", Integer.class);
 
     public QUser(String variable) {

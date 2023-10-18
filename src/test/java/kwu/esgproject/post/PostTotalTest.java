@@ -3,7 +3,7 @@ package kwu.esgproject.post;
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.Post;
 import kwu.esgproject.domain.User;
-import kwu.esgproject.repository.init.PostRepository;
+import kwu.esgproject.repository.init.PostJpaRepository;
 import kwu.esgproject.service.PostService;
 import kwu.esgproject.service.UserService;
 import org.junit.Assert;
@@ -25,7 +25,7 @@ public class PostTotalTest {
     private UserService userService;
 
     @Autowired
-    private PostRepository postRepository;
+    private PostJpaRepository postJpaRepository;
     @Autowired
     private PostService postService;
 
@@ -66,14 +66,14 @@ public class PostTotalTest {
         Post post2 = Post.createPost(user1, "나이키 매장 면접", "꿀팁좀 주세요");
         Post post3 = Post.createPost(user2, "주짓수 대회 처음 나가는데", "꿀팁 주세요ㅎㅎ");
         //when
-        postRepository.save(post1);
-        postRepository.save(post2);
-        postRepository.save(post3);
+        postJpaRepository.save(post1);
+        postJpaRepository.save(post2);
+        postJpaRepository.save(post3);
 
-        Post findOne1 = postRepository.findOne(post1.getId());
-        Post findOne2 = postRepository.findOne(post2.getId());
-        postRepository.remove(post3);
-        List<Post> all = postRepository.findAll();
+        Post findOne1 = postJpaRepository.findOne(post1.getId());
+        Post findOne2 = postJpaRepository.findOne(post2.getId());
+        postJpaRepository.remove(post3);
+        List<Post> all = postJpaRepository.findAll();
 //        Post findOne3 = postRepository.findOne(post3.getId());
 
         //then

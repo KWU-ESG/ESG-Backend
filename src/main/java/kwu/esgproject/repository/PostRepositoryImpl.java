@@ -2,7 +2,6 @@ package kwu.esgproject.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kwu.esgproject.domain.Interest;
-import kwu.esgproject.domain.QPost;
 import kwu.esgproject.dto.PostListDto;
 import kwu.esgproject.dto.QPostListDto;
 
@@ -11,11 +10,11 @@ import java.util.List;
 
 import static kwu.esgproject.domain.QPost.post;
 
-public class PostDataRepositoryImpl implements PostDataRepositoryCustom{
+public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public PostDataRepositoryImpl(EntityManager em) {
+    public PostRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
     @Override

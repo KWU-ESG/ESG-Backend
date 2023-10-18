@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class CompanyRepository {
+public class CompanyJpaRepository {
     private final EntityManager em;
 
     public void save(Company company){

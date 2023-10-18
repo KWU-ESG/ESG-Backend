@@ -41,7 +41,7 @@ public class PostController{
 
     @PostMapping("/forum/publish/{id}")
     public CreateCompanyResponse registrationCompany(@PathVariable("id") Long userId, @RequestBody @Valid CreatePostRequest request){
-        User user = userService.findOne(userId);
+        User user = userService.findById(userId);
         Post post = Post.createPost(user, request.getTitle(), request.getDetail());
         for (String tag : request.getTags()) {
             post.addTag(tag);

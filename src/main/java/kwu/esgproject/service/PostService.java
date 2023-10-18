@@ -3,9 +3,9 @@ package kwu.esgproject.service;
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.Post;
 import kwu.esgproject.dto.PostListDto;
-import kwu.esgproject.repository.PostDataRepository;
-import kwu.esgproject.repository.init.PostRepository;
-import kwu.esgproject.repository.init.UserRepository;
+import kwu.esgproject.repository.PostRepository;
+import kwu.esgproject.repository.init.PostJpaRepository;
+import kwu.esgproject.repository.init.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,53 +17,53 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostService {
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
+    private final PostJpaRepository postJpaRepository;
+    private final UserJpaRepository userJpaRepository;
 
-    private final PostDataRepository postDataRepository;
+    private final PostRepository postRepository;
     // 게시글 작성
     @Transactional
     public Long savePost(Post post){
         // 중복 방지 함수
-        postDataRepository.save(post);
+        postRepository.save(post);
 
         return post.getId();
     }
 
     public List<Post> findAllPost(){
-        return postDataRepository.findAll();
+        return postRepository.findAll();
     }
 
     public Post findPost(Long postId){
-        return postDataRepository.findById(postId).orElseThrow();
+        return postRepository.findById(postId).orElseThrow();
     }
 
     public Long closePost(Long postId){
-        Post findOne = postDataRepository.findById(postId).get();
+        Post findOne = postRepository.findById(postId).get();
         findOne.setClose();
 
         return postId;
     }
 
     public Long openPost(Long postId){
-        Post findOne = postDataRepository.findById(postId).get();
+        Post findOne = postRepository.findById(postId).get();
         findOne.setOpen();
 
         return postId;
     }
 
     public List<PostListDto> searchByInterest(Interest interest){
-        return postDataRepository.searchByInterest(interest);
+        return postRepository.searchByInterest(interest);
     }
 
     //삭제
     @Transactional
     public void deletePost(Long id){
-        Post post = postDataRepository.findById(id).get();
+        Post post = postRepository.findById(id).get();
         // 사용자
 
         //
-        postDataRepository.delete(post);
+        postRepository.delete(post);
 
     }
 
@@ -71,7 +71,7 @@ public class PostService {
     //수정??
     @Transactional
     public void editPost(Long id , String title, String detail){
-        Post post = postDataRepository.findById(id).get();
+        Post post = postRepository.findById(id).get();
         post.setTitle(title);
         post.setDetail(detail);
         // 수정한 날짜를 다시 PostTime 으로 할 것인지 아니면 수정한 PostTime의 로그를 저장할 것인지 ?

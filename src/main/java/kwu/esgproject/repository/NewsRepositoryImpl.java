@@ -3,18 +3,17 @@ package kwu.esgproject.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.News;
-import kwu.esgproject.domain.QNews;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 import static kwu.esgproject.domain.QNews.news;
 
-public class NewsDataRepositoryImpl implements NewsDataRepositoryCustom {
+public class NewsRepositoryImpl implements NewsRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public NewsDataRepositoryImpl(EntityManager em) {
+    public NewsRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class PostRepository {
+public class PostJpaRepository {
     private final EntityManager em;
 
     public void save(Post post){ // Post 영속성 컨텍스트에 올림

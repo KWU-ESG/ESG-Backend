@@ -1,9 +1,7 @@
 package kwu.esgproject.repository.init;
 
-import kwu.esgproject.domain.Company;
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.News;
-import kwu.esgproject.domain.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +10,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class NewsRepository {
+public class NewsJpaRepository {
     private final EntityManager em;
 
     // News

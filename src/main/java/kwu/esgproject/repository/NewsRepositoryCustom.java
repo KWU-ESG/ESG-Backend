@@ -5,7 +5,7 @@ import kwu.esgproject.domain.News;
 
 import java.util.List;
 
-public interface NewsDataRepositoryCustom {
+public interface NewsRepositoryCustom {
     List<News> searchByTitle(String title);
     List<News> searchByContent(String content);
     List<News> searchByInterest(Interest interest);
