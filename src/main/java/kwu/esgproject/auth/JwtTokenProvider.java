@@ -92,10 +92,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public String validateRefreshToken(RefreshToken refreshTokenObj){
-        // refresh 객체에서 refreshToken 추출
-        String refreshToken = refreshTokenObj.getRefreshToken();
-
+    public String validateRefreshToken(String refreshToken){
         try {
             // 검증
             Jws<Claims> claims = Jwts.parser().setSigningKey(refreshSecretKey).parseClaimsJws(refreshToken);

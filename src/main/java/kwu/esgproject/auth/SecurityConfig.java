@@ -32,12 +32,12 @@ public class SecurityConfig {
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 세션 관리 활성화
-                .maximumSessions(1) // 동시 로그인 세션 개수 (1로 설정하면 중복 로그인 방지)
-                .expiredUrl("/mail/success") // 세션이 만료된 경우 리다이렉트할 URL
-                .and()
-                .invalidSessionUrl("/mail/failure"); // 세션이 유효하지 않은 경우 리다이렉트할 URL
+//        http.sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 세션 관리 활성화
+//                .maximumSessions(1) // 동시 로그인 세션 개수 (1로 설정하면 중복 로그인 방지)
+//                .expiredUrl("/mail/success") // 세션이 만료된 경우 리다이렉트할 URL
+//                .and()
+//                .invalidSessionUrl("/mail/failure"); // 세션이 유효하지 않은 경우 리다이렉트할 URL
 
         return http.build();
     }

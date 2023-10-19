@@ -2,7 +2,7 @@ package kwu.esgproject.auth;
 
 import kwu.esgproject.domain.RefreshToken;
 import kwu.esgproject.domain.Token;
-import kwu.esgproject.repository.RefreshTokenRepository;
+import kwu.esgproject.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,27 +18,30 @@ import java.util.Optional;
 @Slf4j
 public class JwtService {
     private final JwtTokenProvider jwtTokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+
+    private final RedisService redisService;
     @Transactional
     public void login(Token tokenDto){
-
         RefreshToken refreshToken = RefreshToken.builder().keyEmail(tokenDto.getKey()).refreshToken(tokenDto.getRefreshToken()).build();
-        String loginUserEmail = refreshToken.getKeyEmail();
-        if(refreshTokenRepository.existsByKeyEmail(loginUserEmail)){
+
+        String values = redisService.getValues("refreshToken:" + refreshToken.getKeyEmail());
+        if(!values.isEmpty()){
             log.info("기존의 존재하는 refresh 토큰 삭제");
-            refreshTokenRepository.deleteByKeyEmail(loginUserEmail);
+            redisService.deleteValues("refreshToken:" + refreshToken.getKeyEmail());
         }
-        refreshTokenRepository.save(refreshToken);
 
+        redisService.setValues("refreshToken:" + refreshToken.getKeyEmail(), refreshToken.getRefreshToken());
     }
 
-    public Optional<RefreshToken> getRefreshToken(String refreshToken){
-        return refreshTokenRepository.findByRefreshToken(refreshToken);
+    public String getRefreshToken(String keyEmail){
+        // RedisTemplate을 사용하여 Redis에서 RefreshToken 가져오기
+        return redisService.getValues("refreshToken:" + keyEmail);
     }
 
-    public Map<String, String> validateRefreshToken(String refreshToken){
-        RefreshToken refreshToken1 = getRefreshToken(refreshToken).get();
-        String createdAccessToken = jwtTokenProvider.validateRefreshToken(refreshToken1);
+    public Map<String, String> validateRefreshToken(String keyEmail){
+
+        String refreshToken = getRefreshToken(keyEmail);
+        String createdAccessToken = jwtTokenProvider.validateRefreshToken(refreshToken);
 
         return createRefreshJson(createdAccessToken);
     }

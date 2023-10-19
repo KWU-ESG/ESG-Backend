@@ -17,9 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostService {
-    private final PostJpaRepository postJpaRepository;
-    private final UserJpaRepository userJpaRepository;
-
     private final PostRepository postRepository;
     // 게시글 작성
     @Transactional

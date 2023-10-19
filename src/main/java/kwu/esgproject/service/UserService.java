@@ -43,7 +43,7 @@ public class UserService {
     }
     
     @Transactional
-    public Long joinAdmin(String name, String nickname, String birth, String email, String password, Interest interest) {
+    public Long joinAdmin(String name, String nickname, String birth, String email, String password) {
         validateDuplicateUser(nickname, email);
         User user = User.createAdmin(name, nickname, birth, email, password);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -75,6 +75,7 @@ public class UserService {
 
 
     // 로그인
+    @Transactional
     public ResponseEntity<?> login(LoginUserRequest loginUserRequest) {
         User user = userRepository.findUserByEmail(loginUserRequest.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
