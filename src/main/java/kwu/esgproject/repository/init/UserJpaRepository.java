@@ -9,7 +9,7 @@ import java.util.List; // java 18로 들어감
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepository {
+public class UserJpaRepository {
 
     private final EntityManager em;
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class NewsRepository {
+public class NewsJpaRepository {
     private final EntityManager em;
 
     // News

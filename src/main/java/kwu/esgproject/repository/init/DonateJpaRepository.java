@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class DonateRepository {
+public class DonateJpaRepository {
     private final EntityManager em;
 
     public void save(Donate donate){

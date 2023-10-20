@@ -4,8 +4,8 @@ import kwu.esgproject.domain.Comment;
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.Post;
 import kwu.esgproject.domain.User;
-import kwu.esgproject.repository.CommentDataRepository;
-import kwu.esgproject.repository.init.CommentRepository;
+import kwu.esgproject.repository.CommentRepository;
+import kwu.esgproject.repository.init.CommentJpaRepository;
 import kwu.esgproject.service.CommentService;
 import kwu.esgproject.service.PostService;
 import kwu.esgproject.service.UserService;
@@ -28,9 +28,9 @@ public class CommentTest {
     @Autowired
     private PostService postService;
     @Autowired
-    private CommentRepository commentRepository;
+    private CommentJpaRepository commentJpaRepository;
     @Autowired
-    private CommentDataRepository commentDataRepository;
+    private CommentRepository commentRepository;
     @Autowired
     private CommentService commentService;
 
@@ -67,13 +67,13 @@ public class CommentTest {
 
         Comment comment1 = Comment.createComment(user2, post1, "헐 놀러가야지~");
         Comment comment2 = Comment.createComment(user3, post1, "나도갈뤱");
-        commentDataRepository.save(comment1);
-        commentDataRepository.save(comment2);
+        commentRepository.save(comment1);
+        commentRepository.save(comment2);
 
         //when
-        Comment find1 = commentDataRepository.findById(comment1.getId()).get();
-        Comment find2 = commentDataRepository.findById(comment2.getId()).get();
-        List<Comment> all = commentDataRepository.findAll();
+        Comment find1 = commentRepository.findById(comment1.getId()).get();
+        Comment find2 = commentRepository.findById(comment2.getId()).get();
+        List<Comment> all = commentRepository.findAll();
 
         //then
         Assert.assertEquals("코멘트가 제대로 등록되었는지 확인1", comment1, find1);

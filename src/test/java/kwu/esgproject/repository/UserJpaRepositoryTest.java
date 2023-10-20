@@ -20,10 +20,10 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class UserRepositoryTest {
+public class UserJpaRepositoryTest {
     @Autowired private EntityManager em;
 //    @Autowired private UserRepository userRepository;
-    @Autowired private UserDataRepository userRepository;
+    @Autowired private UserRepository userRepository;
     @Autowired private UserService userService;
 
     @Test

@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -49,6 +50,9 @@ public class User {
     @CollectionTable(name = "user_tags", joinColumns = @JoinColumn(name = "user_id"))
     private List<String> prefer_tag = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
+
     //==생성 메서드==//
     public static User createUser(String name, String nickname, String birth, String email, String password, Interest interest) {
         User user = new User();
@@ -60,6 +64,7 @@ public class User {
         user.setInterest(interest);
         user.setGrade(Grade.USER);
         user.setCreate_time(LocalDateTime.now());
+        user.setRoles(Collections.singletonList("ROLE_USER"));
 
         return user;
     }
@@ -71,9 +76,9 @@ public class User {
         user.setBirthDate(birth);
         user.setEmail(email);
         user.setPassword(password);
-        user.setInterest(Interest.E);
         user.setGrade(Grade.ADMIN);
         user.setCreate_time(LocalDateTime.now());
+        user.setRoles(Collections.singletonList("ROLE_ADMIN"));
 
         return user;
     }

@@ -10,11 +10,11 @@ import java.util.List;
 
 import static kwu.esgproject.domain.QPost.post;
 
-public class PostDataRepositoryImpl implements PostDataRepositoryCustom{
+public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public PostDataRepositoryImpl(EntityManager em) {
+    public PostRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
     @Override

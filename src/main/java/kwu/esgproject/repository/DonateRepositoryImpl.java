@@ -8,11 +8,11 @@ import java.util.List;
 
 import static kwu.esgproject.domain.QDonate.donate;
 
-public class DonateDataRepositoryImpl implements DonateDataRepositoryCustom{
+public class DonateRepositoryImpl implements DonateRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public DonateDataRepositoryImpl(EntityManager em) {
+    public DonateRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
     @Override

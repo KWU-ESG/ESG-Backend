@@ -9,11 +9,11 @@ import java.util.List;
 
 import static kwu.esgproject.domain.QNews.news;
 
-public class NewsDataRepositoryImpl implements NewsDataRepositoryCustom {
+public class NewsRepositoryImpl implements NewsRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public NewsDataRepositoryImpl(EntityManager em) {
+    public NewsRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
