@@ -24,7 +24,7 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/join/member")
+    @PostMapping("/join/user")
     public String joinUser(@RequestBody @Valid CreateUserRequest request){
         Long userId = userService.joinUser(request.getName(), request.getNickname(), request.getBirth(), request.getEmail(), request.getPassword(), request.getInterest());
         User findUser = userService.findById(userId);

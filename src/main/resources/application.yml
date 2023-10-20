@@ -23,9 +23,13 @@
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/esg_project
-    username: root
-    password: Insanejam0220!
+#    url: jdbc:mysql://localhost:3306/esg_project
+#    username: root
+#    password: Insanejam0220!
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ESG
+    username: user
+    password: mypassword
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: localhost
