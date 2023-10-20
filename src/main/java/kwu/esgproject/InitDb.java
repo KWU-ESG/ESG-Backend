@@ -2,6 +2,8 @@ package kwu.esgproject;
 
 import kwu.esgproject.domain.*;
 import kwu.esgproject.service.*;
+import kwu.esgproject.domain.*;
+import kwu.esgproject.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,7 @@ import javax.annotation.PostConstruct;
 
 import static kwu.esgproject.domain.Interest.*;
 
-@Component
+/*@Component
 @RequiredArgsConstructor
 public class InitDb {
     private final InitService initService;
@@ -86,3 +88,4 @@ public class InitDb {
         }
     }
 }
+*/

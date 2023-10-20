@@ -1,9 +1,7 @@
 package kwu.esgproject.repository.init;
 
-import kwu.esgproject.domain.Company;
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.News;
-import kwu.esgproject.domain.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

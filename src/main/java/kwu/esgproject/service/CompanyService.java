@@ -1,9 +1,7 @@
 package kwu.esgproject.service;
 
 import kwu.esgproject.domain.Company;
-import kwu.esgproject.repository.CommentDataRepository;
 import kwu.esgproject.repository.CompanyDataRepository;
-import kwu.esgproject.repository.init.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

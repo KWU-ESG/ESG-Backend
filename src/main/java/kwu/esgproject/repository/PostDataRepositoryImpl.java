@@ -2,7 +2,6 @@ package kwu.esgproject.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kwu.esgproject.domain.Interest;
-import kwu.esgproject.domain.QPost;
 import kwu.esgproject.dto.PostListDto;
 import kwu.esgproject.dto.QPostListDto;
 

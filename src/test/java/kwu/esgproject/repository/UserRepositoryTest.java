@@ -48,8 +48,8 @@ public class UserRepositoryTest {
         assertEquals(user1,testFindOne);
 
         // email로 유저 찾기
-        User testFindEmail = userRepository.findUserByEmail(user1.getEmail()).get();
-        assertEquals(user1,testFindEmail);
+        /*User testFindEmail = userRepository.findUserByEmail(user1.getEmail()).get();
+        assertEquals(user1,testFindEmail);*/
 
 
         // name 으로 유저 찾기 (중복 할 수 도 있다는 것)

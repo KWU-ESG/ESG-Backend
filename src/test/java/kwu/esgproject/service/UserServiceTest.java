@@ -41,17 +41,17 @@ public class UserServiceTest {
         LoginUserRequest login1 = new LoginUserRequest(user1.getEmail(), user1.getPassword());
         userService.Login(login1);
         //이메일 없음
-        /*LoginUserRequest login2 = new LoginUserRequest("kang@naver.com", "1234");
-        userService.Login(login2);*/
+        LoginUserRequest login2 = new LoginUserRequest("kang@naver.com", "1234");
+        userService.Login(login2);
         //비밀번호 틀림
-        /*LoginUserRequest login3 = new LoginUserRequest(user2.getEmail(), "1111");
-        userService.Login(login3);*/
+        LoginUserRequest login3 = new LoginUserRequest(user2.getEmail(), "1111");
+        userService.Login(login3);
 
         //정보변경
         /*userService.update(user1.getId(), "dong", "kang@gamil.com", "0000", Interest.E);
-        System.out.println(user1.getNickname() + " "+user1.getEmail() + " "+user1.getPassword()+ " " + user1.getInterest());*/
+        System.out.println(user1.getNickname() + " "+user1.getEmail() + " "+user1.getPassword()+ " " + user1.getInterest());
         //존재하는 이메일
-        /*userService.update(user1.getId(), "dong", "messi@gamil.com", "0000", Interest.E);
+        userService.update(user1.getId(), "dong", "messi@gamil.com", "0000", Interest.E);
         System.out.println(user1.getNickname() + " "+user1.getEmail() + " "+user1.getPassword()+ " " + user1.getInterest());*/
 
         //정보삭제

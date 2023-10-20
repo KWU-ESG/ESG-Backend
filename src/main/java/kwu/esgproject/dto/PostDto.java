@@ -1,12 +1,9 @@
 package kwu.esgproject.dto;
 
 import kwu.esgproject.domain.Comment;
-import kwu.esgproject.domain.Open;
-import kwu.esgproject.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

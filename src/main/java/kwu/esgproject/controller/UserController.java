@@ -1,8 +1,10 @@
 package kwu.esgproject.controller;
 
+import kwu.esgproject.dto.User.*;
 import kwu.esgproject.domain.*;
 import kwu.esgproject.dto.User.*;
 import kwu.esgproject.service.UserService;
+import kwu.esgproject.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -15,24 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
     @PostMapping("/user/create")
-    public CreateUserResponse CreateUser(@RequestBody @Valid CreateUserRequest request){
-        User user = userService.findByEmail(request.getEmail());
-        Long id = userService.join(user);
-        return new CreateUserResponse(id);
+    public String CreateUser(@RequestBody CreateUserRequest request){
+        return "OK";
     }
 
-
-    @PostMapping("/user/login")
+    /*@PostMapping("/user/login")
     public LoginUserResponse LoginUser(@RequestBody @Valid LoginUserRequest request){
         String nickname = userService.Login(request);
         return new LoginUserResponse(nickname);
     }
-
 
 
     @PutMapping("/user/update/{user_id}")
@@ -43,7 +42,7 @@ public class UserController {
 
         return new UpdateUserResponse(user.getName(),user.getNickname()
                 ,user.getBirthDate(),user.getEmail(),user.getPassword(),user.getInterest());
-    }
+    }*/
 
     @DeleteMapping("/user/delete/{user_id}")
     public DeleteUserResponse DeleteUser(@PathVariable("user_id") Long userId ,@RequestBody @Valid DeleteUserRequest deleteUserRequest)
@@ -73,13 +72,13 @@ public class UserController {
         return new SearchUserIdResponse(user.getEmail());
     }
 
-    @GetMapping("/user/password_search") // email로 찾기?  email로 임시 비번 발송 ?
+    /*@GetMapping("/user/password_search") // email로 찾기?  email로 임시 비번 발송 ?
     public SearchUserPwResponse SearchPw(@RequestBody @Valid SearchUserPwRequest request)
     {
         String userPw = userService.SearchUserPw(request.getEmail());
 
         return new SearchUserPwResponse(userPw);
-    }
+    }*/
 
 
     @Data

@@ -3,7 +3,6 @@ package kwu.esgproject.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kwu.esgproject.domain.Interest;
 import kwu.esgproject.domain.News;
-import kwu.esgproject.domain.QNews;
 
 import javax.persistence.EntityManager;
 import java.util.List;

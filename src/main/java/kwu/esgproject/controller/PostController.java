@@ -1,11 +1,13 @@
 package kwu.esgproject.controller;
 
-import kwu.esgproject.domain.Company;
 import kwu.esgproject.domain.Post;
 import kwu.esgproject.domain.User;
-import kwu.esgproject.dto.*;
 import kwu.esgproject.service.PostService;
 import kwu.esgproject.service.UserService;
+import kwu.esgproject.dto.CreatePostRequest;
+import kwu.esgproject.dto.EditPostRequest;
+import kwu.esgproject.dto.PostDto;
+import kwu.esgproject.dto.PostListDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

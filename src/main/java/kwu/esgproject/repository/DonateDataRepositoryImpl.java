@@ -2,7 +2,6 @@ package kwu.esgproject.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kwu.esgproject.domain.Donate;
-import kwu.esgproject.domain.QDonate;
 
 import javax.persistence.EntityManager;
 import java.util.List;

@@ -85,7 +85,7 @@ public class UserService {
     }
 
     // 회원정보 수정
-    @Transactional // 어디까지 수정하게 할지?  이메일, 비밀번호 , 태그
+    /*@Transactional // 어디까지 수정하게 할지?  이메일, 비밀번호 , 태그
     public void update(Long id, String nickname, String email, String password, Interest interest) {
         Optional<User> userById = userDataRepository.findById(id);
         User user = userById.get();
@@ -105,7 +105,7 @@ public class UserService {
         user.setInterest(interest);
 
         // 나중에 Change 메서드로 변경??
-    }
+    }*/
     private void validateDuplicateUpdateUserNickname(User user,String nickname) {
         //nickname 중복체크
         Optional<User> userByNickname = userDataRepository.findUserByNickname(nickname);
@@ -119,7 +119,7 @@ public class UserService {
             throw new IllegalStateException("존재하는 닉네임 입니다.");
         }
     }
-    private void validateDuplicateUpdateUserEmail(User user, String email){
+    /*private void validateDuplicateUpdateUserEmail(User user, String email){
         Optional<User> userByEmail = userDataRepository.findUserByEmail(email);
 
         if(userByEmail.isEmpty()){
@@ -130,7 +130,7 @@ public class UserService {
         else {
             throw new IllegalStateException("이미 존재하는 이메일 입니다.");
         }
-    }
+    }*/
 
     @Transactional
     public UserDeleteDto deleteUser(User user,String password) {
@@ -175,7 +175,7 @@ public class UserService {
         }
     }
 
-    @Transactional
+    /*@Transactional
     public String SearchUserPw(String email) {
         try {
             validateSearchPwUser(email);
@@ -186,20 +186,20 @@ public class UserService {
             System.out.println(e);
             return "";
         }
-    }
+    }*/
 
     // 문자열 파싱해서 나중에 생일과 이것저것 조합해서 넣어주기
     public void AfterValidateChangePw(User user) {
         user.setPassword("1234");
     }
 
-    public void validateSearchPwUser(String email) {
+    /*public void validateSearchPwUser(String email) {
         List<User> findUser = userRepository.findListByEmail(email); // singleResult
         if (findUser.isEmpty()) {
             throw new IllegalStateException("존재하지 않는 이메일입니다");
         }
 
-    }
+    }*/
 
     @Transactional
     public void withdrawal(Long id) {
@@ -218,9 +218,9 @@ public class UserService {
         return userRepository.findOne(userId);
     }
 
-    public User findByEmail(String userEmail) {
+    /*public User findByEmail(String userEmail) {
         return userRepository.findByEmail(userEmail);
-    }
+    }*/
 
 //    public String findByNameAndBirthDateAndNickname(String name, String birth_date, String nickname){
 //        return userRepository.findByNameWithBirthDate(name,birth_date,nickname);

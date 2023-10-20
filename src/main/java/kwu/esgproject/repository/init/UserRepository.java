@@ -1,6 +1,6 @@
 package kwu.esgproject.repository.init;
 
-import  kwu.esgproject.domain.User;
+import kwu.esgproject.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -39,9 +39,14 @@ public class UserRepository {
     }
 
     public User findByEmail(String email) {
-        return  em.createQuery("select u from User u where u.email =: email",User.class)
-                .setParameter("email",email)
-                .getSingleResult();
+        List<User> resultList = em.createQuery("select u from User u where u.email = :email", User.class)
+                .setParameter("email", email)
+                .getResultList();
+
+        if (resultList.isEmpty()) {
+            return resultList.get(0);  // 또는 원하는 방식으로 처리
+        }
+        return resultList.get(0);
     }
 
     public List<User> findListByEmail(String email){ // Login 에서 검사할 때 single result로 반환 할 경우 심각한 오류가 나옴
