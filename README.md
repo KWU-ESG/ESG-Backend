@@ -40,5 +40,6 @@
 ## ⚙️ 시스템 아키텍처
 
 ## 📁 DB 구조
+<img width="842" alt="image" src="https://github.com/KWU-ESG/ESG-Backend/assets/99861250/26bd5ea3-bb20-4d56-a0a4-b5d30a14b77e">
 
 ## 🗂️ Entitiy 구조
