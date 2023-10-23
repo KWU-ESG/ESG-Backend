@@ -36,6 +36,8 @@
 ### Add..
 * Spring Data JPA
 * QueryDsl
+* Spring Security
+* JWT
 
 ## ⚙️ 시스템 아키텍처
 
