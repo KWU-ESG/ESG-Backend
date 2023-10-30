@@ -33,7 +33,7 @@ public class InitDb {
         private final DonationService donationService;
         public void dbInit1(){
             User user1 = User.createUser("Shin", "Jammin", "020220", "sour_jam0220@naver.com", "qweasd123", E);
-            User user2 = User.createUser("Ye", "Yomi", "020720", "yeye@naver.com", "qweasd123", S);
+            User user2 = User.createUser("kang", "pyungjong", "990314", "kang@naver.com", "qweasd123", S);
             User user3 = User.createUser("Sul", "Cucu", "990526", "sulyou@naver.com", "qweasd123", G);
             User user4 = User.createUser("Gu", "Gook", "021020", "jungwon@naver.com", "qweasd123", E);
             Long userId1 = userService.join(user1);
