@@ -59,8 +59,9 @@ public class InitDb {
             Long commentId3 = commentService.saveComment(comment3);
             Long commentId4 = commentService.saveComment(comment4);
 
-            Company company1 = Company.createCompany("넷플릭스", "Ott기반 영상 서비스", "한국 어딘가", 10000);
+            Company company1 = Company.createCompany("테스트", "데이터 베이스 테스트", "테스트", 00000);
             Company company2 = Company.createCompany("라프텔", "Ott기반 영상 서비스", "한국 어딘가", 50000);
+            Company company3 = Company.createCompany("넷플릭스", "Ott기반 영상 서비스", "한국 어딘가", 10000);
             Long companyId1 = companyService.registration(company1);
             Long companyId2 = companyService.registration(company2);
 
