@@ -28,7 +28,7 @@ spring:
     password: esgproject
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    host: localhost
+    host: database-1.cfbqz6prbj9w.ap-northeast-2.rds.amazonaws.com
     port: 6379
   jpa:
     hibernate:
