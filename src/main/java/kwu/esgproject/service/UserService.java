@@ -89,6 +89,7 @@ public class UserService {
             Map<String, String> response = new HashMap<>();
             response.put("message", "로그인 성공");
             response.put("access_token", tokenDto.getAccessToken());
+            response.put("refreshToken", tokenDto.getRefreshToken());
 
             return ResponseEntity.ok(response);
         } else {
