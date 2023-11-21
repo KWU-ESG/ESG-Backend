@@ -88,6 +88,8 @@ public class UserService {
             // 로그인 성공 JSON 응답
             Map<String, String> response = new HashMap<>();
             response.put("message", "로그인 성공");
+            response.put("NickName", user.getNickname());
+            response.put("interest", user.getInterest().toString());
             response.put("access_token", tokenDto.getAccessToken());
             response.put("refreshToken", tokenDto.getRefreshToken());
 
