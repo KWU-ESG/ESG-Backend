@@ -86,8 +86,9 @@ public class UserService {
             jwtService.login(tokenDto);
 
             // 로그인 성공 JSON 응답
-            Map<String, String> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
             response.put("message", "로그인 성공");
+            response.put("ID", user.getId());
             response.put("NickName", user.getNickname());
             response.put("interest", user.getInterest().toString());
             response.put("access_token", tokenDto.getAccessToken());
