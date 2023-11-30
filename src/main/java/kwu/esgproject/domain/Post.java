@@ -85,7 +85,7 @@ public class Post {
 
     //==생성 메서드==//
 
-    public static Post createPost(User user, String title,String detail) {
+    public static Post createPost(User user, String title, String detail) {
         Post post = new Post();
         post.setUser(user);
         post.setTitle(title);
@@ -96,8 +96,12 @@ public class Post {
         post.setOpen(Open.OPEN);
         post.setPost_time(LocalDateTime.now());
 
+        // tags 필드 초기화
+        post.setTags(new ArrayList<>());
+
         return post;
     }
+
 
     public void addTag(String tag){
         this.getTags().add(tag);
